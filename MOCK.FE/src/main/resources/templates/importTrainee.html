@@ -1,0 +1,124 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+<title>Edit Profile</title>
+<!-- Required meta tags -->
+<meta charset="utf-8" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" />
+<!-- Bootstrap CSS -->
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css" />
+<link rel="stylesheet" th:href="@{/css/gstyle.css}" />
+<link rel="stylesheet" th:href="@{/css/base.css}" />
+<style>
+table {
+	text-align: center;
+}
+
+table tr {
+	counter-increment: rowNumber;
+}
+
+table tr td:nth-child(2)::before {
+	content: counter(rowNumber);
+}
+
+.list-content_page-change {
+	margin: 0px 2px;
+	font-weight: 600;
+	color: rgb(65, 96, 139);
+	border: 1px solid #333;
+	display: inline-block;
+	background-color: #f1eded;
+}
+
+.list-content_page-change:hover {
+	background-color: #375b88;
+	color: #fff;
+	text-decoration: none;
+}
+
+.alert_delete {
+	width: 420px;
+	font-size: 1.6rem;
+	padding: 10px;
+	background-color: #db5656;
+	color: #fff;
+	font-weight: 600;
+	z-index: 99;
+	position: absolute;
+	top: 10%;
+	right: 0;
+}
+</style>
+</head>
+<body>
+	<div class="page-container">
+		<div th:replace="layout.html :: header"></div>
+		<div class="alert_delete" id="alert_delete"
+			th:style="${delete}==false?'display:block':'display:none'">
+			<p
+				th:style="${delete_error}!='choose'?'display:inline-block':'display:none'">
+				<i class="fa-solid fa-triangle-exclamation"></i> There was an error
+				in the process of deleting the candidate, please check the results
+				of the candidate or related cases.
+			</p>
+			<p
+				th:style="${delete_error}=='choose'?'display:inline-block':'display:none'">
+				<i class="fa-solid fa-triangle-exclamation"></i> Please choose
+				candidate to delete.
+			</p>
+		</div>
+		<div class="body-container">
+			<div class="container_page" style="height: auto">
+				<div th:replace="layout.html :: sidebar"></div>
+				<div class="content-container">
+					<div class="header-list-content">
+						<p style="color: rgb(20, 9, 116)">Candidate Listing</p>
+					</div>
+					<div class="list-content-container">
+						<form class="list-content-body" enctype="multipart/form-data"
+							th:action="@{'/api/v1/trainee/get_all/excel/import/'+${classId}}" method="post">
+							<input type="file" name="file">
+							<button class="list-content-advanced-btn btn-cancel"
+								type="submit">
+								<i class="fa-solid fa-ban" style="color: red"></i>Import Trainee
+							</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		// Execute something when DOM is ready:
+		var alert = document.getElementById("alert_delete");
+		setTimeout(function() {
+			hide(alert);
+		}, 5000);
+		function hide(element) {
+			element.style.display = "none";
+		}
+	</script>
+
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+		integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+		integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+		crossorigin="anonymous"></script>
+	<script type="text/javascript" th:src="@{/js/script.js}"></script>
+</body>
+</html>
+</html>

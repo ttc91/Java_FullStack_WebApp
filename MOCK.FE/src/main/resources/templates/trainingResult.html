@@ -1,0 +1,650 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+
+<head>
+<title>Title</title>
+<!-- Required meta tags -->
+<meta charset="utf-8" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" />
+<!-- Bootstrap CSS -->
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css" />
+
+<link rel="stylesheet" th:href="@{/css/gstyle.css}" />
+<link rel="stylesheet" th:href="@{/css/base.css}" />
+<style type="text/css">
+input, select {
+	border: none;
+}
+</style>
+</head>
+
+<body>
+	<!-- Optional JavaScript -->
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	<div th:replace="layout.html :: header"></div>
+
+	<div class="body-container">
+		<div class="container_page" style="height: auto">
+		<div th:replace="layout.html :: sidebar"></div>
+
+		<main class="page-content">
+			<div id="page-title">
+				<h1>Trainee Profile</h1>
+			</div>
+			<div id="page-detail">
+				<div id="page-detail-content">
+					<div id="page-detail-content-input">
+						<ul class="nav nav-tabs">
+							<li class="nav-item"><a class="nav-link active" th:href="@{|/api/v1/trainee/${d.traineeId}|}">Trainee
+											Information</a></li>
+									<li class="nav-item"><a class="nav-link" th:href="@{|/api/v1/trainingResult/${d.classId}/${d.traineeId}|}">Training
+											Result</a></li>
+						</ul>
+						<form th:action="@{/api/v1/trainingResult}" id="form1"
+							method="POST" th:object="${d}">
+
+							<input th:field="*{traineeId}" type="hidden" /> <input
+								th:field="*{classId}" type="hidden" />
+							<div id="page-class-general" class="mx-3">
+								<div>
+									<h1>Milestone Configuration</h1>
+									<Table class="container table-bordered">
+										<thead>
+											<tr>
+												<th>
+														<button onclick="addMilestone(event)">
+															<i class="fa-solid fa-plus" style="color: green;"></i>
+														</button>
+												</th>
+												<th scope="col" colspan="2">Milestone Name</th>
+												<th scope="col">Salary Paid</th>
+												<th scope="col">Start Date</th>
+												<th scope="col">End Date</th>
+											</tr>
+										</thead>
+										<tbody id="milestoneTbody">
+											<th:block th:each="i, itemStat : *{milestoneDtos}">
+												<tr th:class="'milestone milestone' + ${itemStat.index}">
+													<th scope="row" colspan="3">
+														<button onclick="deleteMilestone(event)">
+															<i class="fa-solid fa-trash" style="color: red;"></i>
+														</button> <input
+														th:name="|milestoneDtos[${itemStat.index}].milestoneId|"
+														th:value="${i.milestoneId}" type="hidden"> <input
+														th:name="|milestoneDtos[${itemStat.index}].milestoneName|"
+														th:value="${i.milestoneName}">
+													</th>
+													<td><select
+														th:name="|milestoneDtos[${itemStat.index}].salaryPaid|"
+														th:value="${i.salaryPaid}" class="w-100">
+															<option value="1">Yes</option>
+															<option value="0">No</option>
+													</select></td>
+													<td><input class="w-100"
+														th:name="|milestoneDtos[${itemStat.index}].startDate|"
+														th:value="${i.startDate}" type="date">
+													<td><input
+														th:name="|milestoneDtos[${itemStat.index}].endDate|"
+														th:value="${i.endDate}" class="w-100" type="date"
+														data-date-format="DD-MM-YYYY" required></td>
+													<td><input
+													th:name="|milestoneDtos[${itemStat.index}].willDelete|"
+													value="false" type="hidden"></td>
+												</tr>
+
+												<tr th:class="'milestone' + ${itemStat.index}">
+													<th>
+														<button class="float-right" onclick="addTopic(event)">
+															<i class="fa-solid fa-plus" style="color: green;"></i>
+														</button>
+													</th>
+													<th scope="col">Topic</th>
+													<th scope="col">Max score</th>
+													<th scope="col">Passing Score</th>
+													<th scope="col">Weighted Number</th>
+												</tr>
+
+												<tr th:class="'milestone' + ${itemStat.index}" th:each="t, tStat : ${i.topics}">
+													<th class="w-25">
+														<button class="btn float-right" onclick="deleteRow(event)">
+															<i class="fa-solid fa-trash" style="color: red;"></i>
+														</button>
+													</th>
+
+													<th scope="col"><input class="w-100 h-100" type="text"
+														th:name="|milestoneDtos[${itemStat.index}].topics[${tStat.index}].topicName|"
+														th:value="${t.topicName}" name="topicName" required>
+														<input type="hidden"
+														th:name="|milestoneDtos[${itemStat.index}].topics[${tStat.index}].topicId|"
+														th:value="${t.topicId}" required></th>
+
+													<td scope="col"><input class="w-100 h-100"
+														type="number" min="0" max="10"
+														th:name="|milestoneDtos[${itemStat.index}].topics[${tStat.index}].maxScore|"
+														th:value="${t.maxScore}" required></td>
+													<td scope="col"><input class="w-100 h-100"
+														type="number" min="0" max="10"
+														th:name="|milestoneDtos[${itemStat.index}].topics[${tStat.index}].passingScore|"
+														th:value="${t.passingScore}" required></td>
+													<td scope="col"><input class="w-100 h-100"
+														type="number" min="0" max="200"
+														th:name="|milestoneDtos[${itemStat.index}].topics[${tStat.index}].weightedNumber|"
+														th:value="${t.weightedNumber}" required></td>
+													<td><input
+													th:name="|milestoneDtos[${itemStat.index}].topics[${tStat.index}].willDelete|"
+													value="false" type="hidden"></td>
+												</tr>
+
+											</th:block>
+
+										</tbody>
+									</Table>
+								</div>
+
+								<div>
+									<h1>Attendance Status</h1>
+									<Table class="container table-bordered">
+										<thead>
+											<tr>
+												<th scope="col">Milestone Name</th>
+												<th scope="col">Absent Times</th>
+												<th scope="col">Late & Early Leave</th>
+												<th scope="col">No Permissons Rate</th>
+												<th scope="col">Disciplinary Point</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr th:each="i, iStat : *{attendanceStatusDtos}">
+												<th><input
+													th:name="|attendanceStatusDtos[${iStat.index}].milestoneId|"
+													th:value="${i.milestoneId}" type="hidden"
+													readonly="readonly"> <input
+													th:name="|attendanceStatusDtos[${iStat.index}].milestoneName|"
+													th:value="${i.milestoneName}" type="text"
+													readonly="readonly"></th>
+												<td><input
+													th:name="|attendanceStatusDtos[${iStat.index}].absentTimes|"
+													th:value="${i.absentTimes}" type="text" readonly="readonly"></td>
+												<td><input
+													th:name="|attendanceStatusDtos[${iStat.index}].lateAndEarlyLeave|"
+													th:value="${i.lateAndEarlyLeave}" type="text"
+													readonly="readonly"></td>
+												<td><input
+													th:name="|attendanceStatusDtos[${iStat.index}].noPermissionRate|"
+													th:value="${i.noPermissionRate}" type="text"
+													readonly="readonly"></td>
+												<td><input
+													th:name="|attendanceStatusDtos[${iStat.index}].discipinaryPoint|"
+													th:value="${i.discipinaryPoint}" type="text"
+													readonly="readonly"></td>
+											</tr>
+										</tbody>
+									</Table>
+								</div>
+
+								<div>
+									<h1>Topic Mark</h1>
+									<Table class="container table-bordered">
+										<thead>
+											<tr>
+												<th scope="col" colspan="2">Milestone Name</th>
+												<th scope="col">Milestone Mark</th>
+											</tr>
+										</thead>
+										<tbody>
+											<th:block th:each="i, itemStat : *{milestoneMarkDtos}">
+												<tr>
+													<th scope="row" colspan="2"><input
+														th:name="|milestoneMarkDtos[${itemStat.index}].milestoneName|"
+														th:value="${i.milestoneName}" type="text"
+														readonly="readonly"></th>
+													<th scope="row" colspan="2"><input
+														th:name="|milestoneMarkDtos[${itemStat.index}].milestoneMark|"
+														th:value="${i.milestoneMark}" type="text"
+														readonly="readonly"></th>
+												</tr>
+
+												<tr>
+													<th class="w-25"></th>
+													<th scope="col">Topic</th>
+													<th scope="col">Score</th>
+												</tr>
+
+												<tr th:each="t, tStat : ${i.topicMarkDtos}">
+													<th></th>
+													<th scope="col"><input
+														type="hidden" readonly="readonly"
+														th:name="|milestoneMarkDtos[${itemStat.index}].topicMarkDtos[${tStat.index}].topicId|"
+														th:value="${t.topicId}" name="topicId"> <input
+														type="text" class="w-100 h-100"
+														th:name="|milestoneMarkDtos[${itemStat.index}].topicMarkDtos[${tStat.index}].topicName|"
+														th:value="${t.topicName}"></th>
+													<td scope="col"><input type="text"
+														th:name="|milestoneMarkDtos[${itemStat.index}].topicMarkDtos[${tStat.index}].score|"
+														th:value="${t.score}"></td>
+												</tr>
+
+											</th:block>
+										</tbody>
+									</Table>
+								</div>
+
+								<div>
+									<h1>Reward & Penalty</h1>
+									<Table class="container table-bordered">
+										<thead>
+											<tr>
+												<th>
+													<button onclick="addRewardPenalty(event)">
+														<i class="fa-solid fa-plus" style="color: green;"></i>
+													</button>
+												</th>
+												<th scope="col">Milestone</th>
+												<th scope="col">Date</th>
+												<th scope="col">Bonus Point</th>
+												<th scope="col">Penalty Point</th>
+												<th scope="col">Reason</th>
+											</tr>
+										</thead>
+										<tbody id="rewardPenaltyTbody">
+											<tr th:each="i, iStat : *{rewardPenaltyDtos}">
+												<th>
+													<button class="btn" onclick="deleteRow(event)">
+														<i class="fa-solid fa-trash" style="color: red;"></i>
+													</button>
+												</th>
+												<th><input
+													th:name="|rewardPenaltyDtos[${iStat.index}].id|"
+													th:value="${i.id}" type="hidden"> <select
+													class="w-100"
+													th:name="|rewardPenaltyDtos[${iStat.index}].milestoneId|">
+														<option th:value="${milestone.milestoneId}"
+															th:each="milestone : ${milestones}"
+															th:text="${milestone.milestoneName}"
+															th:selected="${milestone.milestoneId==i.milestoneId}"></option>
+												</select>
+												</th>
+												<td><input
+													th:name="|rewardPenaltyDtos[${iStat.index}].date|"
+													th:value="${i.date}" type="date"></td>
+												<td><input
+													th:name="|rewardPenaltyDtos[${iStat.index}].bonusPoint|"
+													th:value="${i.bonusPoint}" type="number"></td>
+												<td><input
+													th:name="|rewardPenaltyDtos[${iStat.index}].penaltyPoint|"
+													th:value="${i.penaltyPoint}" type="number"></td>
+												<td><input
+													th:name="|rewardPenaltyDtos[${iStat.index}].reason|"
+													th:value="${i.reason}" type="text"></td>
+												<td><input
+													th:name="|rewardPenaltyDtos[${iStat.index}].willDelete|"
+													value="false" type="hidden"></td>
+											</tr>
+										</tbody>
+									</Table>
+								</div>
+
+								<div>
+									<h1>GPA</h1>
+									<Table class="container table-bordered">
+										<thead>
+											<tr>
+												<th scope="col">Milestone</th>
+												<th scope="col">Academic Mark</th>
+												<th scope="col">Disciplinary Point</th>
+												<th scope="col">Bonus</th>
+												<th scope="col">Penalty</th>
+												<th scope="col">GPA</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr th:each="i, iStat : *{gpaDtos}">
+												<th>
+												<input
+													th:name="|gpaDtos[${iStat.index}].milestoneName|"
+													th:value="${i.milestoneName}" type="text" readonly="readonly"></th>
+												<td><input
+													th:name="|gpaDtos[${iStat.index}].academicMark|"
+													th:value="${i.academicMark}" type="number" readonly="readonly"></td>
+												<td><input
+													th:name="|gpaDtos[${iStat.index}].disciplinaryPoint|"
+													th:value="${i.disciplinaryPoint}" type="number" readonly="readonly"></td>
+												<td><input th:name="|gpaDtos[${iStat.index}].bonus|"
+													th:value="${i.bonus}" type="number" readonly="readonly"></td>
+												<td><input th:name="|gpaDtos[${iStat.index}].penalty|"
+													th:value="${i.penalty}" type="number"></td>
+												<td></td>
+												<td><input
+													th:name="|gpaDtos[${iStat.index}].gpa|"
+													th:value="${i.gpa}" type="number"></td>
+											</tr>
+										</tbody>
+									</Table>
+								</div>
+
+								<div>
+									<h1>Commitment</h1>
+									<Table class="container table-bordered">
+										<thead>
+											<tr>
+												<th scope="col">Commited Value</th>
+												<th scope="col">Commited Working Duration</th>
+												<th scope="col">Commited Working Start Date</th>
+												<th scope="col">Commited Working End Date</th>
+												<th scope="col">Remarks</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<th><Input th:field="*{commitmentDto.commitedValue}"
+													readonly="readonly" class="w-100" type="text"></th>
+												<td><Input
+													th:field="*{commitmentDto.commitedWorkingDuration}"
+													readonly="readonly" class="w-100" type="text"></td>
+												<td><Input
+													th:field="*{commitmentDto.commitedWorkingStartDate}"
+													readonly="readonly" class="w-100" type="text"></td>
+												<td><Input
+													th:field="*{commitmentDto.commitedWorkingEndDate}"
+													readonly="readonly" class="w-100" type="text"></td>
+												<td><Input th:field="*{commitmentDto.remarks}"
+													class="w-100" type="text"></td>
+											</tr>
+										</tbody>
+									</Table>
+								</div>
+
+								<div>
+									<h1>Allowance</h1>
+									<Table class="container table-bordered">
+										<thead>
+											<tr>
+												<th scope="col">Milestone</th>
+												<th scope="col">GPA</th>
+												<th scope="col">Level</th>
+												<th scope="col">Salary Paid</th>
+												<th scope="col">Standard Allowance</th>
+												<th scope="col">Remarks</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr th:each="i, iStat : *{allowanceDtos}">
+												<th><input th:name="|allowanceDtos[${iStat.index}].id|"
+													th:value="${i.id}" type="hidden" required="required"><input
+													th:name="|allowanceDtos[${iStat.index}].allowanceStandardId|"
+													th:value="${i.allowanceStandardId}" type="hidden"
+													required="required"><input
+													th:name="|allowanceDtos[${iStat.index}].milestoneName|"
+													th:value="${i.milestoneName}" type="text"
+													required="required"></th>
+												<td><input
+													th:name="|allowanceDtos[${iStat.index}].allowanceResult|"
+													th:value="${i.allowanceResult}" type="text"
+													required="required"></td>
+												<td><input
+													th:name="|allowanceDtos[${iStat.index}].salaryPaid|"
+													th:value="${i.salaryPaid}" type="text" required="required"></td>
+												<td><input
+													th:name="|allowanceDtos[${iStat.index}].standardSalary|"
+													th:value="${i.standardSalary}" type="number"
+													required="required"></td>
+												<td><input
+													th:name="|allowanceDtos[${iStat.index}].remarks|"
+													th:value="${i.remarks}" type="number"></td>
+											</tr>
+											<tr>
+												<th colspan="4">Total</th>
+												<td colspan="2">8000</td>
+											</tr>
+										</tbody>
+									</Table>
+								</div>
+
+								<div>
+									<h1>Allocation</h1>
+									<Table class="container table-bordered">
+										<thead>
+											<tr>
+												<th scope="col">Allocated FSU</th>
+												<th scope="col">Salary</th>
+												<th scope="col">Start Date</th>
+												<th scope="col">Allocation Status</th>
+												<th scope="col">Remarks</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr th:each="i, iStat : *{allocationDtos}">
+												<th><input
+													th:name="|allocationDtos[${iStat.index}].id|"
+													th:value="${i.id}" type="hidden" /> <input
+													th:name="|allocationDtos[${iStat.index}].allocatedFSU|"
+													th:value="${i.allocatedFSU}" type="text" /></th>
+												<td><input
+													th:name="|allocationDtos[${iStat.index}].salary|"
+													th:value="${i.salary}" type="text" /></td>
+												<td><input
+													th:name="|allocationDtos[${iStat.index}].startDate|"
+													th:value="${i.startDate}" type="date" /></td>
+												<td><input
+													th:name="|allocationDtos[${iStat.index}].allocationStatus|"
+													th:value="${i.allocationStatus}" type="text" /></td>
+												<td><input
+													th:name="|allocationDtos[${iStat.index}].remarks|"
+													th:value="${i.remarks}" type="text" /></td>
+											</tr>
+										</tbody>
+									</Table>
+								</div>
+							</div>
+							<button type="submit">Submit</button>
+							<a href="#">Close</a>
+						</form>
+					</div>
+				</div>
+			</div>
+		</main>
+	</div>
+	</div>
+	<div id="template" style="display: none">
+		<select class="w-100">
+			<option th:value="${milestone.milestoneId}"
+				th:each="milestone : ${milestones}"
+				th:text="${milestone.milestoneName}"></option>
+		</select>
+	</div>
+
+	<footer>
+		<div class="footer-content">
+			<div class="footer-menu">
+				<div>
+					<i class="fa-solid fa-circle-question"></i> <a href="">Help</a>
+				</div>
+
+				&emsp;
+
+				<div>
+					<i class="fa-regular fa-calendar-check"></i> <a href="">Create
+						ticket on F12.0</a>
+				</div>
+			</div>
+		</div>
+	</footer>
+
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+		crossorigin="anonymous"></script>
+
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+		integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+		integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+		crossorigin="anonymous"></script>
+	<script type="text/javascript">
+		function addRewardPenalty(event){
+			event.preventDefault();
+			let tempInput = $("#rewardPenaltyTbody tr:last input");
+			let nextNumber = 0;
+			console.log(tempInput);
+			if (tempInput.length != 0){
+				let lastNumber = (tempInput.attr('name')).match(/\d+/)[0];
+				nextNumber = +lastNumber + 1;				
+			}
+			console.log(nextNumber);
+			let divSelectMilestones = document.getElementById('template').cloneNode(true);
+			divSelectMilestones.querySelector("select").name = `rewardPenaltyDtos[${nextNumber}].milestoneId`;
+			$("#rewardPenaltyTbody").append(`
+				<tr>
+					<th>
+						<button class="btn" onclick="deleteRowInUI(event)">
+							<i class="fa-solid fa-trash" style="color: red;"></i>
+						</button>
+					</th>
+					<th><input name="rewardPenaltyDtos[${nextNumber}].id" value="" type="hidden">${divSelectMilestones.innerHTML}</th>
+					<td><input name="rewardPenaltyDtos[${nextNumber}].date" type="date"></td>
+					<td><input name="rewardPenaltyDtos[${nextNumber}].bonusPoint" type="number"></td>
+					<td><input name="rewardPenaltyDtos[${nextNumber}].penaltyPoint" type="number"></td>
+					<td><input name="rewardPenaltyDtos[${nextNumber}].reason" type="text"></td>
+					<td><input name="rewardPenaltyDtos[${nextNumber}].willDelete" type="hidden" value="false"></td>
+				</tr>
+			`);
+		}
+		
+		function deleteRowInUI(event){
+			event.preventDefault();
+			let node = event.target;
+			let tr = node.tagName == "I" ? node.parentNode.parentNode.parentNode : node.parentNode.parentNode;
+			tr.remove();
+		}
+		
+		function deleteRow(event){
+			event.preventDefault();
+			let node = event.target;
+			let tr = node.tagName == "I" ? node.parentNode.parentNode.parentNode : node.parentNode.parentNode;
+			tr.style.display = "none";
+			
+			let input = tr.querySelectorAll("input[name$='willDelete']")[0];
+			input.value="true";
+		}
+		
+		function addMilestone(event){
+			event.preventDefault();
+			let tempInput = $("#milestoneTbody tr[class^='milestone ']:last input");
+			let nextNumber = 0;
+			if (tempInput.length != 0){
+				let lastNumber = (tempInput.attr('name')).match(/\d+/)[0];
+				nextNumber = +lastNumber + 1;				
+			}
+			$("#milestoneTbody").append(`
+				<tr class='milestone milestone${nextNumber}'>
+					<th scope="row" colspan="3">
+						<button onclick="deleteMilestoneInUI(event)">
+							<i class="fa-solid fa-trash" style="color: red;"></i>
+						</button> <input name="milestoneDtos[${nextNumber}].milestoneId" value="" type="hidden"> <input name="milestoneDtos[${nextNumber}].milestoneName">
+					</th>
+					<td><select name="milestoneDtos[${nextNumber}].salaryPaid" value="true" class="w-100">
+							<option value="1">Yes</option>
+							<option value="0">No</option>
+					</select></td>
+					<td><input class="w-100" name="milestoneDtos[${nextNumber}].startDate" value="2021-01-29" type="date">
+					</td><td><input name="milestoneDtos[${nextNumber}].endDate" value="2021-02-28" class="w-100" type="date" data-date-format="DD-MM-YYYY" required=""></td>
+					<td><input
+					name="milestoneDtos[${nextNumber}].willDelete"
+					value="false" type="hidden"></td>
+				</tr>
+					<tr class="milestone${nextNumber}">
+					<th>
+						<button class="float-right" onclick="addTopic(event)">
+							<i class="fa-solid fa-plus" style="color: green;"></i>
+						</button>
+					</th>
+					<th scope="col">Topic</th>
+					<th scope="col">Max score</th>
+					<th scope="col">Passing Score</th>
+					<th scope="col">Weighted Number</th>
+				</tr>
+			`);
+		}
+		
+		function deleteMilestoneInUI(event){
+			event.preventDefault();
+			let node = event.target;
+			let tr = node.tagName == "I" ? node.parentNode.parentNode.parentNode : node.parentNode.parentNode;
+			let secondClass = tr.className.split(' ')[1];
+			let milestone = document.querySelector(`#milestoneTbody tr[class='milestone ${secondClass}']`);
+			
+			let topics = document.querySelectorAll(`#milestoneTbody tr[class='${secondClass}']`)
+								.forEach(e => e.remove());
+			
+			deleteRowInUI(event);
+		}
+		
+		function deleteMilestone(event){
+			event.preventDefault();
+			let node = event.target;
+			let tr = node.tagName == "I" ? node.parentNode.parentNode.parentNode : node.parentNode.parentNode;
+			
+			let secondClass = tr.className.split(' ')[1];
+			let milestone = document.querySelector(`#milestoneTbody tr[class='milestone ${secondClass}']`);
+			milestone.style.display = "none";			
+			let input = milestone.querySelector("input[name$='willDelete']");
+			input.value="true";
+			
+			let topics = document.querySelectorAll(`#milestoneTbody tr[class='${secondClass}']`)
+								.forEach(e => {
+									e.style.display = "none";
+									let input = e.querySelector("input[name$='willDelete']");
+									if (input != null){
+										input.value="true";	
+									}
+									});
+			
+		}
+		
+		function addTopic(event){
+			event.preventDefault();
+			let node = event.target;
+			let tr = node.tagName == "I" ? node.parentNode.parentNode.parentNode : node.parentNode.parentNode;
+			let milestoneNum = tr.className.match(/\d+/)[0];
+			
+			let lastRowInput = $(`#milestoneTbody tr[class=${tr.className}]:last input:first`);
+			let	lastNumber = 0;
+			let nextNumber = lastNumber;
+			if (lastRowInput.length != 0){
+				lastNumber = lastRowInput.attr('name').match(/\d+/gm)[1];
+				nextNumber = +lastNumber + 1;
+			}
+			
+			let newTopicStr = `
+				<tr class="${tr.className}">
+				<th class="w-25">
+					<button class="btn float-right" onclick="deleteRowInUI(event)">
+						<i class="fa-solid fa-trash" style="color: red;"></i>
+					</button>
+				</th>
+
+				<th scope="col"><input class="w-100 h-100" type="text" value="" name="milestoneDtos[${milestoneNum}].topics[${nextNumber}].topicName">
+					<input type="hidden" name="milestoneDtos[${milestoneNum}].topics[${nextNumber}].topicId" value="" required=""></th>
+
+				<td scope="col"><input class="w-100 h-100" type="number" min="0" max="10" name="milestoneDtos[${milestoneNum}].topics[${nextNumber}].maxScore" value="" required=""></td>
+				<td scope="col"><input class="w-100 h-100" type="number" min="0" max="10" name="milestoneDtos[${milestoneNum}].topics[${nextNumber}].passingScore" value="" required=""></td>
+				<td scope="col"><input class="w-100 h-100" type="number" min="0" max="200" name="milestoneDtos[${milestoneNum}].topics[${nextNumber}].weightedNumber" value="" required=""></td>
+				<td><input
+				name="milestoneDtos[${milestoneNum}].topics[${nextNumber}].willDelete"
+				value="false" type="hidden"></td>
+			</tr>
+			`
+			$(newTopicStr).insertAfter(`.${tr.className}:last`);
+		}
+	</script>
+</body>
+
+</html>

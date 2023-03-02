@@ -1,0 +1,828 @@
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+	<html lang="en">
+		<head>
+			<title>Edit Profile</title>
+			<!-- Required meta tags -->
+			<meta charset="utf-8" />
+			<meta
+				name="viewport"
+				content="width=device-width, initial-scale=1, shrink-to-fit=no"
+			/>
+			<link
+				rel="stylesheet"
+				href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+			/>
+			<!-- Bootstrap CSS -->
+			<link
+				rel="stylesheet"
+				href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+			/>
+			<link
+				rel="stylesheet"
+				href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css"
+			/>
+			<link rel="stylesheet" th:href="@{/css/gstyle.css}" />
+			<link rel="stylesheet" th:href="@{/css/base.css}" />
+			<link rel="stylesheet" th:href="@{/css/totalstyle.css}" />
+
+			<style>
+				table {
+					text-align: center;
+				}
+
+				/* table tr {
+					counter-increment: rowNumber;
+				}
+				table tr td:nth-child(2)::before {
+					content: counter(rowNumber);
+				} */
+				.list-content_page-change {
+					margin: 0px 2px;
+					font-weight: 600;
+					color: rgb(65, 96, 139);
+					border: 1px solid #333;
+					display: inline-block;
+					background-color: #f1eded;
+				}
+
+				.list-content_page-change:hover {
+					background-color: #375b88;
+					color: #fff;
+					text-decoration: none;
+				}
+
+				#page-detail-content-input {
+					padding: 20px;
+					height: 100%;
+					width: 100%;
+				}
+
+				.entrytest_content {
+					border-left: 1px solid #cacaca;
+					border-right: 1px solid #cacaca;
+					border-bottom: 1px solid #cacaca;
+				}
+
+				.table-bordered th,
+				.table-bordered td {
+					border: 1px solid #00050a;
+				}
+
+				.table thead th {
+					vertical-align: bottom;
+					border-bottom: 2px solid #00050a;
+				}
+
+				#btn-submit-update-candidateResult {
+					border: 1px solid #333;
+					padding: 8px 20px;
+					margin-right: 20px;
+					font-weight: 600;
+					transition: all 0.3s ease;
+					position: relative;
+					background-color: transparent;
+				}
+
+				#btn-submit-update-candidateResult:before {
+					content: "";
+					position: absolute;
+					left: 0;
+					top: 0;
+					background-color: #374175;
+					z-index: -1;
+					width: 100%;
+					height: 100%;
+					-webkit-transform: scaleX(0);
+					transform: scaleX(0);
+					transform-origin: 50% 50%;
+					transition: transform 0.3s ease;
+					color: #fff;
+				}
+
+				#btn-submit-update-candidateResult:hover {
+					color: #fff;
+				}
+
+				#btn-submit-update-candidateResult:hover:before {
+					transform: scaleX(1);
+				}
+
+				#btn-close-candidateResult:hover {
+					color: #fff;
+				}
+
+				#btn-close-candidateResult:hover i {
+					color: #fff !important;
+				}
+
+				#btn-close-candidateResult:hover a {
+					color: #fff !important;
+					text-decoration: none;
+				}
+
+				#btn-close-candidateResult:before {
+					content: "";
+					position: absolute;
+					left: 0;
+					top: 0;
+					background-color: #b52f2f;
+					z-index: -1;
+					width: 100%;
+					height: 100%;
+					-webkit-transform: scaleX(0);
+					transform: scaleX(0);
+					transform-origin: 50% 50%;
+					transition: transform 0.3s ease;
+					color: #fff;
+				}
+
+				#btn-close-candidateResult:hover:before {
+					transform: scaleX(1);
+				}
+
+				#btn-close-candidateResult {
+					border: 1px solid #333;
+					padding: 8px 20px;
+					font-weight: 600;
+					transition: all 0.3s ease;
+					position: relative;
+					background-color: transparent;
+				}
+
+				#page-class-input input {
+					font-size: 16px;
+				}
+
+				.alert_update_result {
+					width: 420px;
+					font-size: 1.6rem;
+					padding: 10px;
+					background-color: #db5656;
+					color: #fff;
+					font-weight: 600;
+					z-index: 99;
+					position: absolute;
+					top: 10%;
+					right: 0;
+					border: 1px solid #333;
+				}
+				#success_update_result{
+					width: 420px;
+					font-size: 1.6rem;
+					padding: 10px;
+					background-color: #269418;
+					color: #fff;
+					font-weight: 600;
+					z-index: 99;
+					position: absolute;
+					top: 10%;
+					right: 0;
+					border: 1px solid #333;
+				}
+			</style>
+		</head>
+		<body>
+			<div class="page-container">
+				<header class="header-part">
+					<div class="img-logo_container">
+						<img
+							src="https://cdn.haitrieu.com/wp-content/uploads/2022/01/Logo-FPT.png"
+							alt="logo-fpt"
+							class="img-logo"
+						/>
+					</div>
+					<div class="header-content">FSOFT HR UTILITY</div>
+					<div class="header-user_info">
+						<div class="header-user_info-top">
+							<p class="header-user_content">
+								Welcome,
+								<a href="#" class="header-user_link" sec:authentication="name"></a>
+							</p>
+						</div>
+						<div class="header-user_info-bot">
+							<a th:href="@{/api/v1/logout/}" class="header-user_logout">Logout</a>
+						</div>
+					</div>
+				</header>
+				<div
+					class="alert_update_result"
+					id="alert_update_result"
+					th:style="${result_update}==false?'display:block':'display:none'"
+				>
+					<p>
+						<i class="fa-solid fa-triangle-exclamation"></i> There was something
+						wrong.
+					</p>
+				</div>
+				<div
+					class="alert_update_result"
+					id="success_update_result"
+					th:style="${result_update}==true?'display:block':'display:none'"
+				>
+					<p>
+						<i class="fa-solid fa-triangle-exclamation"></i> Update successfully.
+					</p>
+				</div>
+				<div
+					class="alert_update"
+					id="alert_update"
+					th:style="${update}==false?'display:block':'display:none'"
+				>
+					<p
+						th:style="${update_error}=='choose'?'display:inline-block':'display:none'"
+					>
+						<i class="fa-solid fa-triangle-exclamation"></i> Please choose
+						candidate to delete.
+					</p>
+				</div>
+				<div class="body-container">
+					<div class="container_page" style="height: auto">
+
+						<div th:replace="layout.html :: sidebar"></div>
+						<div class="content-container">
+							<div class="header-list-content">
+								<p style="color: rgb(20, 9, 116)">Update Candidate Profile</p>
+							</div>
+							<div id="page-detail-content-input">
+								<ul class="nav nav-tabs">
+									<li class="nav-item">
+										<a class="nav-link" style="font-size: 1.6rem" th:href="@{/api/v1/candidate/}+${id}"
+											>Candidate Information</a
+										>
+									</li>
+									<li class="nav-item active">
+										<a
+											class="nav-link"
+											style="
+												color: #495057;
+												background-color: #fff;
+												border-color: #dee2e6 #dee2e6 #fff;
+												font-size: 1.6rem;
+											"
+											>Result</a
+										>
+									</li>
+								</ul>
+								<div class="entrytest_content">
+									<form
+										th:action="@{/api/v1/candidate_result/update/}+${id}"
+										method="post"
+										th:object="${candidateResults}"
+										class="page-candidate-input"
+										id="page-class-input"
+										style="padding: 10px"
+									>
+										<div id="page-class-general">
+											<div
+												class="candidate-title"
+												style="
+													background-color: #374175;
+													color: #fff;
+													padding: 10px;
+													text-align: center;
+												"
+											>
+												<p
+													class="page-class-title-name"
+													style="font-size: 20px; font-weight: 600"
+												>
+													Entry Test
+												</p>
+											</div>
+											<table class="table table-bordered">
+												<thead style="background-color: #cacaca">
+													<tr>
+														<th scope="col">
+															<button
+																onclick="addEntryTest(event)"
+																type="button"
+																style="
+																	border: none;
+																	background-color: transparent;
+																"
+															>
+																<i
+																	class="fa-solid fa-circle-plus"
+																	style="
+																		font-size: 20px;
+																		color: rgb(33, 136, 204);
+																	"
+																></i>
+															</button>
+														</th>
+														<th scope="col" style="width: 60px">Time</th>
+														<th scope="col">Date</th>
+														<th scope="col">Language Valuator</th>
+														<th scope="col" class="th-sm">Language Point</th>
+														<th scope="col" class="th-sm">
+															Technical Valuator
+														</th>
+														<th scope="col" class="th-sm">Technical Point</th>
+														<th scope="col" class="th-sm">Result</th>
+													</tr>
+												</thead>
+												<tbody id="entrytest_tbody">
+													<tr th:each="entrytest,iStat : *{entryTests}">
+														<input
+															th:name="|entryTests[${iStat.index}].willDelete|"
+															type="hidden"
+															value="false"
+														/>
+														<input
+															type="hidden"
+															th:name="|entryTests[${iStat.index}].entryTestId|"
+															th:value="${entrytest.entryTestId}"
+														/>
+														<td scope="row">
+															<button
+																onclick="deleteEntryTest(event)"
+																type="button"
+																style="
+																	border: none;
+																	background-color: transparent;
+																"
+															>
+																<i
+																	class="fa-solid fa-trash-can"
+																	style="font-size: 20px; color: red"
+																></i>
+															</button>
+														</td>
+														<td scope="row">
+															<input
+																class="form-control"
+																type="number"
+																th:name="|entryTests[${iStat.index}].time|"
+																th:value="${entrytest.time}"
+																style="width: 100%"
+																required
+															/>
+														</td>
+														<td>
+															<input
+																class="form-control"
+																type="date"
+																style="font-size: 14px"
+																th:name="|entryTests[${iStat.index}].date|"
+																th:value="${entrytest.date}"
+																required
+															/>
+														</td>
+														<td>
+															<input
+																class="form-control"
+																type="text"
+																th:name="|entryTests[${iStat.index}].languageValuator|"
+																th:value="${entrytest.languageValuator}"
+																required
+															/>
+														</td>
+														<td>
+															<input
+																class="form-control"
+																type="number"
+																th:name="|entryTests[${iStat.index}].languagePoint|"
+																th:value="${entrytest.languagePoint}"
+																required
+															/>
+														</td>
+														<td>
+															<input
+																class="form-control"
+																type="text"
+																th:name="|entryTests[${iStat.index}].technicalValuator|"
+																th:value="${entrytest.technicalValuator}"
+																required
+															/>
+														</td>
+														<td>
+															<input
+																class="form-control"
+																type="number"
+																th:name="|entryTests[${iStat.index}].technicalPoint|"
+																th:value="${entrytest.technicalPoint}"
+																required
+															/>
+														</td>
+														<td>
+															<select
+																style="font-size: 14px"
+																class="form-control"
+																th:name="|entryTests[${iStat.index}].result|"
+																th:value="${entrytest.result}"
+															>
+																<option
+																	value="Pass"
+																	style="font-size: 14px"
+																	th:selected="${entrytest.result}=='Pass'"
+																>
+																	Pass
+																</option>
+																<option
+																	value="Not Pass"
+																	style="font-size: 14px"
+																	th:selected="${entrytest.result}=='Not Pass'"
+																>
+																	Not Pass
+																</option>
+															</select>
+														</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+
+										<div id="page-class-general" style="margin: 20px 0px">
+											<div
+												class="candidate-title"
+												style="
+													background-color: #374175;
+													color: #fff;
+													padding: 10px;
+													text-align: center;
+												"
+											>
+												<p
+													class="page-class-title-name"
+													style="font-size: 20px; font-weight: 600"
+												>
+													Interview
+												</p>
+											</div>
+											<table class="table table-bordered">
+												<thead style="background-color: #cacaca">
+													<tr>
+														<th scope="col">
+															<button
+																onclick="addInterview(event)"
+																type="button"
+																style="
+																	border: none;
+																	background-color: transparent;
+																"
+															>
+																<i
+																	class="fa-solid fa-circle-plus"
+																	style="
+																		font-size: 20px;
+																		color: rgb(33, 136, 204);
+																	"
+																></i>
+															</button>
+														</th>
+														<th scope="col" style="width: 60px">Time</th>
+														<th scope="col">Date</th>
+														<th scope="col">Interviewer</th>
+														<th scope="col" class="th-sm">Comment</th>
+														<th scope="col" class="th-sm">Result</th>
+													</tr>
+												</thead>
+												<tbody id="interview_tbody">
+													<tr th:each="interview,iStat : *{interviews}">
+														<input
+															th:name="|interviews[${iStat.index}].willDelete|"
+															type="hidden"
+															value="false"
+														/>
+														<input
+															type="hidden"
+															th:name="|interviews[${iStat.index}].inteviewId|"
+															th:value="${interview.inteviewId}"
+														/>
+														<td scope="row">
+															<button
+																onclick="deleteInterview(event)"
+																type="button"
+																style="
+																	border: none;
+																	background-color: transparent;
+																"
+															>
+																<i
+																	class="fa-solid fa-trash-can"
+																	style="font-size: 20px; color: red"
+																></i>
+															</button>
+														</td>
+														<td scope="row">
+															<input
+																class="form-control"
+																type="number"
+																style="width: 100%"
+																th:name="|interviews[${iStat.index}].time|"
+																th:value="${interview.time}"
+																required
+															/>
+														</td>
+														<td>
+															<input
+																class="form-control"
+																type="date"
+																style="font-size: 14px"
+																th:name="|interviews[${iStat.index}].date|"
+																th:value="${interview.date}"
+																required
+															/>
+														</td>
+														<td>
+															<input
+																class="form-control"
+																type="text"
+																th:name="|interviews[${iStat.index}].inteviewer|"
+																th:value="${interview.inteviewer}"
+																required
+															/>
+														</td>
+														<td>
+															<input
+																class="form-control"
+																type="text"
+																th:name="|interviews[${iStat.index}].comment|"
+																th:value="${interview.comment}"
+																required
+															/>
+														</td>
+														<td>
+															<select
+																class="form-control"
+																th:name="|interviews[${iStat.index}].result|"
+																th:value="${interview.result}"
+																style="font-size: 14px"
+															>
+																<option
+																	value="Pass"
+																	style="font-size: 14px"
+																	th:selected="${interview.result}=='Pass'"
+																>
+																	Pass
+																</option>
+																<option
+																	value="Not Pass"
+																	style="font-size: 14px"
+																	th:selected="${interview.result}=='Not Pass'"
+																>
+																	Not Pass
+																</option>
+															</select>
+														</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+										<div id="page-detail-content-buttons">
+											<button
+												type="submit"
+												class="btn"
+												id="btn-submit-update-candidateResult" sec:authorize="hasAnyAuthority('FA_MANAGEMENT', 'FA_REC', 'SYSTEM_ADMIN')"
+											>
+												Submit
+											</button>
+
+											<a th:href="@{/api/v1/candidate/page/1}">
+												<button
+													type="button"
+													class="btn btn-candidateResult"
+													id="btn-close-candidateResult"
+												>
+													<i
+														class="fa-solid fa-left-long"
+														style="margin-right: 5px; color: red"
+													></i
+													>Close
+												</button>
+											</a>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<script
+				src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+				integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+				crossorigin="anonymous"
+			></script>
+			<script
+				src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+				integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+				crossorigin="anonymous"
+			></script>
+			<script
+				src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+				integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+				crossorigin="anonymous"
+			></script>
+			<script>
+				function addInterview(event) {
+					event.preventDefault();
+					let nextNumber = document.querySelectorAll(
+						"#interview_tbody tr"
+					).length;
+					console.log(nextNumber);
+					$("#interview_tbody").append(`
+					<tr>
+						<input
+															name="interviews[${nextNumber}].willDelete"
+															type="hidden"
+															value="false"
+														/>
+						<input type="hidden" name="interviews[${nextNumber}].inteviewId">
+														<td scope="row">
+															<button type="button" 
+															style="
+																	border: none;
+																	background-color: transparent;
+																	"
+																	onclick="deleteInterviewUI(event)"
+																>
+																<i class="fa-solid fa-trash-can" style="font-size: 20px; color: red"></i>
+															</button>
+														</td>
+														<td scope="row">
+															<input class="form-control" type="text"  style="width: 100%" name="interviews[${nextNumber}].time" required>
+														</td>
+														<td>
+															<input class="form-control" type="date" style="font-size: 14px" name="interviews[${nextNumber}].date" value="null" required>
+														</td>
+														<td>
+															<input class="form-control" type="text" name="interviews[${nextNumber}].inteviewer" required >
+														</td>
+														<td>
+															<input class="form-control" type="text" name="interviews[${nextNumber}].comment" required>
+														</td>
+														<td>
+															
+															<select class="form-control" name="interviews[${nextNumber}].result" value="Not Pass" style="font-size: 14px">
+																<option value="Pass" style="font-size: 14px">
+																	Pass
+																</option>
+																<option value="Not Pass" style="font-size: 14px" selected="selected">
+																	Not Pass
+																</option>
+															</select>
+														</td>
+													</tr>`);
+				}
+				function addEntryTest(event) {
+					event.preventDefault();
+					let nextNumberEntryTest = document.querySelectorAll(
+						"#entrytest_tbody tr"
+					).length;
+					console.log(nextNumberEntryTest);
+					$("#entrytest_tbody").append(`
+					<tr >
+							 <input name="entryTests[${nextNumberEntryTest}].willDelete" type="hidden" value="false">
+							 
+														<input type="hidden" name="entryTests[${nextNumberEntryTest}].entryTestId" value="">
+														<td scope="row">
+															<button
+															onclick="deleteEntryTestUI(event)"
+x
+																type="button"
+																style="
+																	border: none;
+																	background-color: transparent;
+																"
+															>
+																<i
+
+																	class="fa-solid fa-trash-can"
+																	style="font-size: 20px; color: red"
+																></i>
+															</button>
+														</td>
+														<td scope="row">
+															<input
+																class="form-control"
+																type="text"
+																name="entryTests[${nextNumberEntryTest}].time" 
+																style="width: 100%"
+																required
+															/>
+														</td>
+														<td>
+															<input
+																class="form-control"
+																type="date"
+																style="font-size: 14px"
+																name="entryTests[${nextNumberEntryTest}].date" 
+																value=""
+																required
+															/>
+														</td>
+														<td>
+															<input
+																class="form-control"
+																type="text"
+																name="entryTests[${nextNumberEntryTest}].languageValuator" 
+																required
+															/>
+														</td>
+														<td>
+															<input
+																class="form-control"
+																type="text"
+																name="entryTests[${nextNumberEntryTest}].languagePoint" 
+																required
+															/>
+														</td>
+														<td>
+															<input
+																class="form-control"
+																type="text"
+																name="entryTests[${nextNumberEntryTest}].technicalValuator" 
+																required
+															/>
+														</td>
+														<td>
+															<input
+																class="form-control"
+																type="text"
+																name="entryTests[${nextNumberEntryTest}].technicalPoint" 
+																required
+															/>
+														</td>
+														<td>
+															<select
+																style="font-size: 14px"
+																class="form-control"
+																name="entryTests[${nextNumberEntryTest}].result" value="Not Pass"
+															>
+																<option
+																	value="Pass"
+																	style="font-size: 14px"
+																>
+																	Pass
+																</option>
+																<option
+																selected
+																	value="Not Pass"
+																	style="font-size: 14px"
+																>
+																	Not Pass
+																</option>
+															</select>
+														</td>
+													</tr>`);
+				}
+				function deleteEntryTestUI(event) {
+					event.preventDefault();
+					let node = event.target;
+					let tr =
+						node.tagName == "I"
+							? node.parentNode.parentNode.parentNode
+							: node.parentNode.parentNode;
+					tr.remove();
+				}
+				function deleteEntryTest(event) {
+					event.preventDefault();
+					let node = event.target;
+					let tr =
+						node.tagName == "I"
+							? node.parentNode.parentNode.parentNode
+							: node.parentNode.parentNode;
+					tr.style.display = "none";
+
+					let input = tr.querySelector("input[name$='willDelete']");
+					input.value = "true";
+				}
+				function deleteInterviewUI(event) {
+					event.preventDefault();
+					let node = event.target;
+					let tr =
+						node.tagName == "I"
+							? node.parentNode.parentNode.parentNode
+							: node.parentNode.parentNode;
+					tr.remove();
+				}
+				function deleteInterview(event) {
+					event.preventDefault();
+					let node = event.target;
+					let tr =
+						node.tagName == "I"
+							? node.parentNode.parentNode.parentNode
+							: node.parentNode.parentNode;
+					tr.style.display = "none";
+
+					let input = tr.querySelector("input[name$='willDelete']");
+					input.value = "true";
+				}
+			</script>
+			<script>
+				// Execute something when DOM is ready:
+				var alert = document.getElementById("alert_update_result");
+				var success = document.getElementById("success_update_result");
+				setTimeout(function () {
+					hide(alert);
+					hide(success);
+				}, 3000);
+				function hide(element) {
+					element.style.display = "none";
+				}
+			</script>
+		</body>
+	</html>
+</html>

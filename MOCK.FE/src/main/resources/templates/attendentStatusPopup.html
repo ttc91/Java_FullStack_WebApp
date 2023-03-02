@@ -1,0 +1,167 @@
+<div id="attendent_status" class="modal fade" tabindex="-1" th:fragment="attendentStatus"
+	role="dialog">
+	<div class="modal-dialog w-75" role="document">
+		<div class="modal-content">
+
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">This is attendent_status</h4>
+			</div>
+
+			<div class="modal-body">
+
+				<select onchange="milestoneEvent(event)">
+					<option  th:each="m, mStat : ${mi}" th:value="${m.milestoneId}+' '+${m.startDate}+' '+${m.endDate}"
+						th:text="${m.milestoneName}"></option>
+				</select>
+
+				<div class="table-responsive">
+					<form class="list-content-body" th:object="${t}"
+						 method="post" th:action="@{/api/v1/trainee/get_all/attendenceStatus/update}" >
+						<input type="hidden" name="classId" th:value="${classId}"/>
+						<table class="table table-bordered data_table">
+							<thead id="theadTable" style="background-color: #cacaca" >
+								<tr>
+								</tr>
+							</thead>
+							<tbody id="tbodyTable">
+								<tr th:each="i, itemStat : ${t.traineeDtos}">
+								</tr>
+							</tbody>
+						</table>
+						<button type="submit" class="list-content-advanced-btn btn-update">
+							<i class="fa-solid fa-circle-arrow-up" style="color: blue"></i>Add
+							Trainee
+						</button>
+					</form>
+				</div>
+				
+
+			</div>
+
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			</div>
+
+		</div>
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal-dialog -->
+	<script th:inline="javascript">
+function getDaysInMonth(start, end) {
+	  let date = start;
+	  var days = [];
+	  while (date <= end) {
+		if (date.getDay() != 0 && date.getDay()!=6){
+		    days.push(new Date(date));
+		}
+	    date.setDate(date.getDate() + 1);
+	  }
+	  return days;
+}
+
+function selectedAttendentStatus(day, dayHasStatus, nameInput){
+	let str1="";
+	let str2="";
+	let str3="";
+	let str4="";
+	let str5="";
+	let str6="";
+	let str7="";
+	let attendenceId="";
+	dayHasStatus.forEach((e)=>{
+		attendenceId = e.id;
+		if (e.status == "P") str1="selected";
+		else if (e.status == "A") str2="selected";
+		else if (e.status == "E") str3="selected";
+		else if (e.status == "L") str4="selected";
+		else if (e.status == "An") str5="selected";
+		else if (e.status == "En") str6="selected";
+		else if (e.status == "Ln") str7="selected";
+	});
+	
+	return `
+	<td>
+	<input type="hidden" name="${nameInput}.id" value="${attendenceId}" />
+	<input type="hidden" name="${nameInput}.workingDay" value="${day.toLocaleString("en-CA", {dateStyle: "short"})}" />
+	<select name="${nameInput}.status">
+	<option value="P" ${str1}>Present</option>
+	<option value="A" ${str2}>Absent</option>
+	<option value="E" ${str3}>Early Leaving</option>
+	<option value="L" ${str4}>Late Coming</option>
+	<option value="An" ${str5}>Absent with no permission</option>
+	<option value="En" ${str6}>Early Leaving with no permission</option>
+	<option value="Ln" ${str7}>Late Coming with no permission</option>
+	</select></td>`
+}
+
+function removeDataTable(theadTrTable, tbodyTrTable){
+	theadTrTable.innerHTML="";
+	$.each(tbodyTrTable, function(index, row){
+		row.innerHTML="";
+	});
+}
+
+function milestoneEvent(event){
+	let milestoneId = +event.target.value.match(/\d+/gm)[0];
+	
+	let startDate = +event.target.value.match(/\d+/gm)[3];
+	let startMonth = +event.target.value.match(/\d+/gm)[2] -1;
+	let startYear = +event.target.value.match(/\d+/gm)[1];
+	
+	let endDate = +event.target.value.match(/\d+/gm)[6]
+	let endMonth = +event.target.value.match(/\d+/gm)[5] -1;
+	let endYear = +event.target.value.match(/\d+/gm)[4];
+	
+	let start = new Date(startYear, startMonth, startDate);
+	let end = new Date(endYear, endMonth, endDate);
+	
+	let days = getDaysInMonth(start, end);
+	var theadTrTable = $("#theadTable tr")[0];
+	var tbodyTrTable = $("#tbodyTable tr");
+	
+	removeDataTable(theadTrTable, tbodyTrTable);
+		
+	theadTrTable.innerHTML += `
+		<input type="hidden" name="milestoneId" value="${milestoneId}" />
+		<th scope="col">Empl ID</th>
+		<th scope="col">Name</th>`;
+		
+		days.forEach((e) => {
+		theadTrTable.innerHTML += `
+			<th scope="col">${e.getDate()}</th>`;
+	});
+
+	$.each(tbodyTrTable, function(index, row) {
+		let traineeId = [[${t.traineeDtos}]][index].traineeId;
+		let traineeName = [[${t.traineeDtos}]][index].traineeCandidateProfile.fullName;
+		
+		row.innerHTML += `
+		<td><input type="text" name="traineeDtos[${index}].traineeId" value="${traineeId}" readonly="readonly"/></td>
+		<td><input type="text" name="traineeDtos[${index}].traineeCandidateProfile.fullName" value="${traineeName}" readonly="readonly"/></td>
+		`
+		let daysInMilestone = [[${t.traineeDtos}]][index].attendantStatuses.filter((status)=>{
+			let workingDay = new Date(status.workingDay);
+			let start = new Date(startYear, startMonth, startDate);
+			let end = new Date(endYear, endMonth, endDate);
+			if (workingDay >= start && workingDay <= end){
+				return status;
+			}
+		});
+		days.forEach((day, dayIndex)=>{
+			let dayHasStatus = daysInMilestone.filter((e)=>{
+				if (day.getDate() == e.workingDay.match(/\d+/gm)[2]){
+					return e;
+				}
+			});
+			
+			row.innerHTML += selectedAttendentStatus(day, dayHasStatus, `traineeDtos[${index}].attendantStatuses[${dayIndex}]`);
+		});
+	});
+}
+</script>
+</div>
+<!-- /.modal -->

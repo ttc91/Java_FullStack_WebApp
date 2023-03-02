@@ -1,0 +1,764 @@
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+	<html lang="en">
+		<head>
+			<title>Title</title>
+			<!-- Required meta tags -->
+			<meta charset="utf-8" />
+			<meta
+				name="viewport"
+				content="width=device-width, initial-scale=1, shrink-to-fit=no"
+			/>
+
+			<!-- Bootstrap CSS -->
+			<link
+				rel="stylesheet"
+				href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+				integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+				crossorigin="anonymous"
+			/>
+
+			<link
+				rel="stylesheet"
+				href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+			/>
+			<link rel="stylesheet" th:href="@{/css/cstyle.css}" />
+			<link rel="stylesheet" th:href="@{/css/totalstyle.css}" />
+
+			<style>
+				.upload_label {
+					margin-left: 15px;
+					margin-bottom: 0px;
+					align-items: center;
+				}
+				.upload_label:hover {
+					cursor: pointer;
+					color: #375b88;
+					font-weight: 700;
+				}
+				#nav {
+					height: 60px;
+					padding: 0;
+				}
+				#nav a {
+					flex-basis: 15%;
+					padding: 0;
+					margin: 0;
+					height: 100%;
+				}
+				#btn-close-candidate a:hover {
+					color: #fff;
+					text-decoration: none;
+				}
+				.header-user_info {
+					flex-basis: 20%;
+					font-size: 14px;
+					font-weight: 500;
+					color: #fff;
+				}
+				.header-user_info a {
+					color: #fff;
+				}
+
+				#ul-sidebar-menu {
+					margin-left: 0;
+				}
+				#ul-sidebar-menu li {
+					margin: 8px 20px;
+					list-style-position: inside;
+				}
+				.alert_update_result {
+					width: 420px;
+					font-size: 16px;
+					padding: 10px;
+					background-color: #db5656;
+					color: #fff;
+					font-weight: 600;
+					z-index: 99;
+					position: absolute;
+					top: 10%;
+					right: 0;
+					border: 1px solid #333;
+				}
+				#success_update_result {
+					width: 420px;
+					font-size: 16px;
+					padding: 10px;
+					background-color: #269418;
+					color: #fff;
+					font-weight: 600;
+					z-index: 99;
+					position: absolute;
+					top: 10%;
+					right: 0;
+					border: 1px solid #333;
+				}
+			</style>
+		</head>
+		<body>
+			<!-- Optional JavaScript -->
+			<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+			<header>
+				<nav class="navbar navbar-expand-lg navbar-dark" id="nav">
+					<a class="navbar-brand" href="#">
+						<div class="img-logo_container">
+							<img
+								src="https://cdn.haitrieu.com/wp-content/uploads/2022/01/Logo-FPT.png"
+								alt="logo-fpt"
+								class="img-logo"
+							/>
+						</div>
+					</a>
+
+					<div class="collapse navbar-collapse" style="flex-basis: 65%">
+						<ul class="navbar-nav">
+							<li class="nav-item">
+								<a
+									class="nav-link"
+									style="font-size: 18px; font-weight: 600"
+									href=""
+									id="nav-title"
+									>FSOFT HR UTILITY</a
+								>
+							</li>
+						</ul>
+					</div>
+
+					<div class="header-user_info">
+						<div class="header-user_info-top">
+							<p style="margin-bottom: 0" class="header-user_content">
+								Welcome,
+								<a href="#" class="header-user_link" sec:authentication="name"></a>
+							</p>
+						</div>
+						<div class="header-user_info-bot">
+							<a th:href="@{/api/v1/logout/}" class="header-user_logout">Logout</a>
+						</div>
+					</div>
+				</nav>
+			</header>
+			<div
+				class="alert_update_result"
+				id="alert_update_result"
+				th:style="${transfer}==false?'display:block':'display:none'"
+			>
+				<p>
+					<i class="fa-solid fa-triangle-exclamation"></i> There was something
+					wrong.
+				</p>
+			</div>
+			<div
+				class="alert_update_result"
+				id="success_update_result"
+				th:style="${transfer}==true?'display:block':'display:none'"
+			>
+				<p>
+					<i class="fa-solid fa-triangle-exclamation"></i> Update successfully.
+				</p>
+			</div>
+			<div
+				style="background-color: blue;"
+				class="alert_update_result"
+				id="success_update_result"
+				th:style="${create}==true?'display:block':'display:none'"
+			>
+				<p>
+					<i class="fa-solid fa-triangle-exclamation"></i> Create candidate successfully.
+				</p>
+			</div>
+			<div
+				class="alert_update_result"
+				id="alert_create_result"
+				th:style="${create}==false?'display:block':'display:none'"
+			>
+				<p>
+					<i class="fa-solid fa-triangle-exclamation"></i> There was something
+					wrong or your email/phone already exists.
+				</p>
+			</div>
+			<div class="page-wrapper">
+				<nav id="sidebar" class="sidebar-wrapper" style="flex-basis: 17%">
+					<div
+						class="sidebar-content"
+						style="min-height: 800px; text-align: end; height: auto"
+					>
+						<i
+							class="fa-solid fa-angles-left"
+							style="margin: 28px; font-size: 20px; color: #3987e1"
+						></i>
+
+						<div
+							class="sidebar-header"
+							style="text-align: start; margin-top: 0"
+						>
+							<div>
+								<p style="font-size: 18px; margin-bottom: 10px">
+									Your role now is:
+								</p>
+							</div>
+							<div class="input-group" style="display: block">
+								<div class="input-group_sidebar">
+									<div
+										class="input-group-append"
+										style="
+											display: block;
+											width: 100%;
+											position: relative;
+											font-size: 14px;
+										"
+									>
+										<select
+											class="input-sidebar"
+											style="width: 100%; padding: 8px"
+										>
+											<option th:each="authority : ${#authentication.getAuthorities()}"
+										th:text="${authority.getAuthority()}" >
+									</option>
+										</select>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div
+							class="sidebar-menu"
+							style="margin-top: 20px; text-align: start"
+						>
+							<ul id="ul-sidebar-menu">
+								<li><a href="">Dashboard</a></li>
+								<li>
+									<a th:href="@{/api/v1/class_batch}"
+										>Class Management</a
+									>
+								</li>
+								<li>
+									<a th:href="@{/api/v1/candidate}">Candidate Management</a>
+								</li>
+								<li>
+									<a th:href="@{/api/v1/trainer/get_all_trainers}"
+										>Trainer Management</a
+									>
+								</li>
+								<li><a th:href="@{/api/v1/trainee/get_all}">Trainee Management</a></li>
+								<li><a href="">General Setting</a></li>
+							</ul>
+						</div>
+					</div>
+				</nav>
+
+				<main class="page-content">
+					<div id="page-title">
+						<h1>Create Candidate Profile</h1>
+					</div>
+					<div id="page-detail">
+						<div id="page-detail-content">
+							<div id="page-detail-content-input">
+								<ul class="nav nav-tabs">
+									<li class="nav-item">
+										<a class="nav-link active" href="">Candidate Information</a>
+									</li>
+									<li
+										class="nav-item"
+										th:style="${candidate.id}==null?'display:none;':'display:block;'"
+									>
+										<a
+											class="nav-link"
+											th:href="@{/api/v1/candidate_result/}+${candidate.id}"
+											>Result</a
+										>
+									</li>
+								</ul>
+								<form
+									class="page-candidate-input"
+									id="page-class-input"
+									method="POST"
+									th:action="${candidate.id}==null?@{/api/v1/candidate/create}:@{/api/v1/candidate/update}"
+									th:object="${candidate}"
+								>
+									<div id="page-class-general">
+										<div id="general-title" class="candidate-title">
+											<span class="page-class-title-name"
+												>Personal Information</span
+											>
+										</div>
+										<div id="general-content" class="general_content_candidate">
+											<div class="input-row">
+												<div
+													class="page-class-input-format input-format_candidate"
+												>
+													<div style="width: 40%" class="input-format-title">
+														<span style="margin-left: 5px">Empl ID</span>
+													</div>
+													<input
+														style="width: 60%"
+														type="text"
+														th:field="*{id}"
+														readonly
+														class="form-control input-format-type fill-color"
+													/>
+												</div>
+
+												<div
+													class="page-class-input-format none-border-left input-format_candidate"
+												>
+													<div style="width: 40%" class="input-format-title">
+														<span style="margin-left: 5px">Type</span>
+													</div>
+													<input
+														style="width: 60%"
+														type="text"
+														value="Candidate"
+														disabled
+														class="form-control input-format-type fill-color"
+													/>
+												</div>
+
+												<div
+													class="page-class-input-format none-border-left input-format_candidate"
+												>
+													<div style="width: 40%" class="input-format-title">
+														<span style="margin-left: 5px">Status</span>
+													</div>
+													<input
+														style="width: 60%"
+														type="text"
+														th:value="${candidate.id}!=null?*{status}:'New'"
+														disabled
+														class="form-control input-format-type fill-color"
+													/>
+												</div>
+											</div>
+
+											<div class="input-row">
+												<div
+													class="page-class-input-format input-format_candidate"
+												>
+													<div style="width: 30%" class="input-format-title">
+														<span style="margin-left: 5px"
+															>Application Date</span
+														>
+													</div>
+
+													<input
+														style="width: 70%"
+														type="date"
+														th:field="*{applicationDate}"
+														class="form-control input-format-type"
+														required
+													/>
+												</div>
+												<div
+													class="page-class-input-format none-border-left input-format_candidate"
+												>
+													<div style="width: 30%" class="input-format-title">
+														<span style="margin-left: 5px">Channel *</span>
+													</div>
+
+													<select
+														style="width: 70%"
+														type="date"
+														th:field="*{channel.id}"
+														class="form-control input-format-type"
+													>
+														<option
+															th:value="${channel.id}"
+															th:each="channel : ${channels}"
+															th:text="${channel.channelName}"
+															th:selected="${channel.id==candidate.channel.id}"
+														></option>
+													</select>
+												</div>
+											</div>
+
+											<div class="input-row">
+												<div
+													class="page-class-input-format input-format_candidate"
+												>
+													<div style="width: 30%" class="input-format-title">
+														<span style="margin-left: 5px">Site</span>
+													</div>
+
+													<select
+														style="width: 70%"
+														type="date"
+														th:field="*{location.locationId}"
+														class="form-control input-format-type"
+													>
+														<option
+															th:value="${location.locationId}"
+															th:each="location : ${locations}"
+															th:text="${location.locationName}"
+															th:selected="${location.locationId==candidate.location.locationId}"
+														></option>
+													</select>
+												</div>
+												<input
+													style="display: none"
+													type="text"
+													th:field="*{traineeCandidateProfile.profileId}"
+												/>
+												<div
+													class="page-class-input-format none-border-left input-format_candidate"
+												>
+													<div style="width: 30%" class="input-format-title">
+														<span style="margin-left: 5px">Account</span>
+													</div>
+													<input
+														style="width: 70%"
+														type="text"
+														required
+														th:field="*{traineeCandidateProfile.account}"
+														class="form-control input-format-type fill-color"
+													/>
+												</div>
+											</div>
+
+											<div class="input-row">
+												<div
+													class="page-class-input-format input-format_candidate"
+												>
+													<div style="width: 30%" class="input-format-title">
+														<span style="margin-left: 5px">Name *</span>
+													</div>
+													<input
+														style="width: 70%"
+														type="text"
+														required
+														th:field="*{traineeCandidateProfile.fullName}"
+														class="form-control input-format-type fill-color"
+													/>
+												</div>
+
+												<div
+													class="page-class-input-format none-border-left input-format_candidate"
+												>
+													<div style="width: 30%" class="input-format-title">
+														<span style="margin-left: 5px">Gender *</span>
+													</div>
+													<div class="select-gener_candidate">
+														<div style="flex-basis: 50%; text-align: center">
+															<input
+																type="radio"
+																id="male_candidate"
+																name="fav_language"
+																th:field="*{traineeCandidateProfile.gender}"
+																value="Male"
+															/>
+															  <label for="male_candidate">Male</label>
+														</div>
+														<div style="flex-basis: 50%; text-align: center">
+															 
+															<input
+																type="radio"
+																id="female_candidate"
+																value="Female"
+																th:field="*{traineeCandidateProfile.gender}"
+															/>
+															<label for="female_candidate">Female</label>
+														</div>
+													</div>
+												</div>
+											</div>
+
+											<div class="input-row">
+												<div
+													class="page-class-input-format input-format_candidate"
+												>
+													<div style="width: 30%" class="input-format-title">
+														<span style="margin-left: 5px">DOB *</span>
+													</div>
+													<input
+														style="width: 70%"
+														type="date"
+														required
+														th:field="*{traineeCandidateProfile.dateOfBirth}"
+														class="form-control input-format-type fill-color"
+													/>
+												</div>
+												<div
+													class="page-class-input-format none-border-left input-format_candidate"
+												>
+													<div style="width: 30%" class="input-format-title">
+														<span style="margin-left: 5px">CV</span>
+													</div>
+													<input
+														type="file"
+														th:style="*{traineeCandidateProfile.cv}!=null? 'display: none;width: 70%':'display:block;width: 70%'"
+														th:field="*{traineeCandidateProfile.cv}"
+														class="form-control input-format-type fill-color"
+														id="upload_file"
+													/>
+													<label
+														th:style="*{traineeCandidateProfile.cv}!=null? 'display: flex;':'display:none'"
+														class="upload_label"
+														for="upload_file"
+														th:text="*{traineeCandidateProfile}?*{traineeCandidateProfile.cv}"
+													></label>
+												</div>
+											</div>
+											<div class="input-row">
+												<div
+													class="page-class-input-format input-format_candidate"
+												>
+													<div style="width: 30%" class="input-format-title">
+														<span style="margin-left: 5px">University</span>
+													</div>
+
+													<select
+														style="width: 70%"
+														type="date"
+														th:field="*{traineeCandidateProfile.university.universityId}"
+														class="form-control input-format-type"
+													>
+														<option
+															th:value="${university.universityId}"
+															th:each="university : ${universities}"
+															th:text="${university.universityName}"
+															th:selected="${university.universityId==candidate.traineeCandidateProfile.university.universityId}"
+														></option>
+													</select>
+												</div>
+												<div
+													class="page-class-input-format none-border-left input-format_candidate"
+												>
+													<div style="width: 30%" class="input-format-title">
+														<span style="margin-left: 5px">Faculty</span>
+													</div>
+
+													<select
+														style="width: 70%"
+														type="date"
+														th:field="*{traineeCandidateProfile.faculty.majorId}"
+														class="form-control input-format-type"
+													>
+														<option
+															th:value="${faculty.majorId}"
+															th:each="faculty : ${faculties}"
+															th:text="${faculty.majorName}"
+															th:selected="${faculty.majorId==candidate.traineeCandidateProfile.faculty.majorId}"
+														></option>
+													</select>
+												</div>
+											</div>
+											<div class="input-row">
+												<div
+													class="page-class-input-format input-format_candidate"
+												>
+													<div style="width: 30%" class="input-format-title">
+														<span style="margin-left: 5px">Phone *</span>
+													</div>
+
+													<input
+														style="width: 70%"
+														type="text"
+														required
+														th:field="*{traineeCandidateProfile.phone}"
+														class="form-control input-format-type fill-color"
+													/>
+												</div>
+												<div
+													class="page-class-input-format none-border-left input-format_candidate"
+												>
+													<div style="width: 30%" class="input-format-title">
+														<span style="margin-left: 5px">Email *</span>
+													</div>
+
+													<input
+														style="width: 70%"
+														type="text"
+														required
+														th:field="*{traineeCandidateProfile.email}"
+														class="form-control input-format-type fill-color"
+													/>
+												</div>
+											</div>
+											<div class="input-row">
+												<div
+													class="page-class-input-format input-format_candidate"
+												>
+													<div style="width: 30%" class="input-format-title">
+														<span style="margin-left: 5px">Skill</span>
+													</div>
+
+													<input
+														style="width: 70%"
+														type="text"
+														required
+														th:field="*{traineeCandidateProfile.skill}"
+														class="form-control input-format-type fill-color"
+													/>
+												</div>
+												<div
+													class="page-class-input-format none-border-left input-format_candidate"
+												>
+													<div style="width: 30%" class="input-format-title">
+														<span style="margin-left: 5px"
+															>Graduation Year</span
+														>
+													</div>
+
+													<input
+														style="width: 70%"
+														type="date"
+														th:field="*{traineeCandidateProfile.graduationYear}"
+														class="form-control input-format-type fill-color"
+													/>
+												</div>
+											</div>
+											<div class="input-row">
+												<div
+													class="page-class-input-format input-format_candidate"
+												>
+													<div style="width: 30%" class="input-format-title">
+														<span style="margin-left: 5px"
+															>Foreign Language</span
+														>
+													</div>
+
+													<input
+														style="width: 70%"
+														type="text"
+														th:field="*{traineeCandidateProfile.foreignLanguage}"
+														class="form-control input-format-type fill-color"
+													/>
+												</div>
+												<div
+													class="page-class-input-format none-border-left input-format_candidate"
+												>
+													<div style="width: 30%" class="input-format-title">
+														<span style="margin-left: 5px">Level</span>
+													</div>
+
+													<input
+														style="width: 70%"
+														type="number"
+														th:field="*{traineeCandidateProfile.level}"
+														class="form-control input-format-type fill-color"
+													/>
+												</div>
+											</div>
+
+											<div class="input-row">
+												<div
+													class="page-class-input-format input-format_candidate"
+												>
+													<div style="width: 10%" class="input-format-title">
+														<span style="margin-left: 5px">Note</span>
+													</div>
+
+													<input
+														style="width: 100%"
+														type="text"
+														th:field="*{note}"
+														class="form-control input-format-type fill-color"
+													/>
+												</div>
+											</div>
+											<div class="input-row">
+												<div
+													class="page-class-input-format input-format_candidate"
+												>
+													<div style="width: 10%" class="input-format-title">
+														<span style="margin-left: 5px">History</span>
+													</div>
+
+													<input
+														style="width: 100%"
+														type="text"
+														class="form-control input-format-type fill-color"
+													/>
+												</div>
+											</div>
+										</div>
+										<div id="page-detail-content-buttons">
+											<button
+												type="submit"
+												class="btn"
+												id="btn-submit-create-candidate" sec:authorize="hasAnyAuthority('FA_MANAGEMENT', 'FA_REC', 'SYSTEM_ADMIN')"
+											>
+												Submit
+											</button>
+											<a th:href="@{/api/v1/candidate/page/1}">
+												<button
+													style="margin-right: 20px"
+													type="button"
+													class="btn btn-close_candidate"
+													id="btn-close-candidate"
+												>
+													<i
+														class="fa-solid fa-left-long"
+														style="margin-right: 5px; color: red"
+													></i
+													>Close
+												</button>
+											</a>
+											<button
+												type="submit"
+												class="btn"
+												id="btn-transfer-candidate"
+												th:formaction="@{/api/v1/candidate/transfer}"
+												th:formmethod="post"
+												th:style="${candidate.id}==null?'display:none;':'display:inline-block;'"
+											sec:authorize="hasAnyAuthority('FA_MANAGEMENT', 'FA_REC', 'SYSTEM_ADMIN')">
+												<i class="fa-solid fa-right-left"></i>
+												Transfer Candidate
+											</button>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</main>
+			</div>
+
+			<footer>
+				<div class="footer-content">
+					<div class="footer-menu">
+						<div>
+							<i class="fa-solid fa-circle-question"></i> <a href="">Help</a>
+						</div>
+
+						&emsp;
+
+						<div>
+							<i class="fa-regular fa-calendar-check"></i>
+							<a href="">Create ticket on F12.0</a>
+						</div>
+					</div>
+				</div>
+			</footer>
+			<script>
+				// Execute something when DOM is ready:
+				var alert = document.getElementById("alert_update_result");
+				var success = document.getElementById("success_update_result");
+				var create = document.getElementById("alert_create_result");
+				
+				setTimeout(function () {
+					hide(alert);
+					hide(success);
+					hide(create);
+				}, 3000);
+				function hide(element) {
+					element.style.display = "none";
+				}
+			</script>
+			<script
+				src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+				integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+				crossorigin="anonymous"
+			></script>
+			<script
+				src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+				integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+				crossorigin="anonymous"
+			></script>
+			<script
+				src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+				integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+				crossorigin="anonymous"
+			></script>
+		</body>
+	</html>
+</html>

@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Title</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="./css/style.css" />
+  </head>
+  <body>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+    <header>
+      <nav class="navbar navbar-expand-lg navbar-dark" id="nav">
+        <a class="navbar-brand" href="#">
+          <img
+            src="./img/fpt_logo.png"
+            width="50"
+            height="30"
+            class="d-inline-block align-top"
+            alt=""
+          />
+        </a>
+
+        <div class="collapse navbar-collapse">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link" href="" id="nav-title">FSOFT HR UTILITY</a>
+            </li>
+          </ul>
+        </div>
+
+        <div>
+          <b style="color: white">Hello, </b
+          ><a href="" style="color: white">user !!!!</a>
+          <br />
+          <a href="" style="color: white">Logout</a>
+        </div>
+      </nav>
+    </header>
+
+    <div class="page-wrapper">
+      <nav id="sidebar" class="sidebar-wrapper">
+        <div class="sidebar-content">
+          <div class="sidebar-brand">
+            <a href="" id="back-button">
+              <i class="fa-solid fa-angles-left"></i>
+            </a>
+          </div>
+
+          <div class="sidebar-header">
+            <div>
+              <span>Your role now is: </span>
+            </div>
+            <div class="input-group">
+              <input type="text" class="form-control" />
+              <div class="input-group-append">
+                <button
+                  type="button"
+                  class="btn btn-outline dropdown-toggle dropdown-toggle-split"
+                  id="btn-dropdown"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                ></button>
+
+                <div class="dropdown-menu">
+                  <a class="dropdown-item" href="#">Delivery Manager</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="sidebar-menu">
+            <ul id="ul-sidebar-menu">
+              <li><a href="">Dashboard</a></li>
+              <li><a href="">Class Management</a></li>
+              <li><a href="">Candidate Management</a></li>
+              <li><a href="">Trainer Management</a></li>
+              <li><a href="">Trainee Management</a></li>
+              <li><a href="">General Setting</a></li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+      <main class="page-content">
+        <div id="page-title">
+          <h1>Create Class</h1>
+        </div>
+        <div id="page-detail">
+          <div id="page-detail-content">
+            <div id="page-detail-content-input">
+              <ul class="nav nav-tabs">
+                <li class="nav-item">
+                  <a class="nav-link active" href="">Information</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="">Trainee</a>
+                </li>
+              </ul>
+              <div id="page-class-input">
+                <div id="page-class-general">
+                  <div id="general-title" class="page-class-item-title">
+                    <button
+                        type="button"
+                        class="btn btn-outline dropdown-toggle dropdown-toggle-split page-btn-class"
+                        id="btn-general"
+                        data-toggle="dropdown"
+                        aria-haspopup="true"
+                        aria-expanded="false"
+                    ></button>
+                    <span class="page-class-title-name">General<span>
+                  </div>
+                  <div id="general-content">
+
+                    <div class="input-row">
+                        <div class="page-class-input-format input-format">
+                            <div style="width: 40%;" class="input-format-title">
+                               <span style="margin-left: 5px;">Class Code</span>
+                            </div>
+                            <input style="width: 60%;" type="text" class="form-control input-format-type fill-color"/>
+                        </div>
+    
+                        <div class="page-class-input-format input-format none-border-left">
+                            <div style="width: 40%;" class="input-format-title">
+                                <span style="margin-left: 5px;">Class Name</span>
+                            </div>
+                            <input style="width: 60%;" type="text" class="form-control input-format-type fill-color"/>
+                        </div>
+    
+                        <div class="page-class-input-format input-format none-border-left">
+                            <div style="width: 40%;" class="input-format-title">
+                                <span style="margin-left: 5px;">Status</span>
+                             </div>
+                            <input style="width: 60%;" type="text" class="form-control input-format-type fill-color"/>
+                        </div>
+                    </div>
+
+                    <div class="input-row">
+                        <div class="page-class-input-format input-format">
+                            <div style="width: 40%;" class="input-format-title">
+                                <span style="margin-left: 5px;">Planned Trainee No</span>
+                             </div>
+                            <input style="width: 60%;" type="text" class="form-control input-format-type"/>
+                        </div>
+    
+                        <div class="page-class-input-format input-format none-border-left">
+                            <div style="width: 40%;" class="input-format-title">
+                                <span style="margin-left: 5px;">Accepted Trainee No</span>
+                             </div>
+                            <input style="width: 60%;" type="text" class="form-control input-format-type fill-color"/>
+                        </div>
+    
+                        <div class="page-class-input-format input-format none-border-left">
+                            <div style="width: 40%;" class="input-format-title">
+                                <span style="margin-left: 5px;">Actual Trainee No</span>
+                             </div>
+                            <input style="width: 60%;" type="text"class="form-control input-format-type fill-color"/>
+                        </div>
+                    </div>
+
+                    <div class="input-row">
+    
+                        <div class="page-class-input-format input-format">
+                            <div style="width: 50%;" class="input-format-title">
+                                <span style="margin-left: 5px;">Expected Start Date *</span>
+                             </div>
+                            
+                            <input style="width: 50%;" type="date" class="form-control input-format-type"/>
+                            
+                        </div>
+    
+                        <div class="page-class-input-format input-format none-border-left">
+                            <div style="width: 50%;" class="input-format-title">
+                                <span style="margin-left: 5px;">Expected End Date *</span>
+                             </div>
+                            <input style="width: 50%;" type="date" class="form-control input-format-type"/>
+                        </div>
+                    </div>
+
+                    <div class="input-row">
+    
+                        <div class="page-class-input-format input-format">
+                            <div style="width: 50%;" class="input-format-title">
+                                <span style="margin-left: 5px;">Location</span>
+                             </div>
+                            
+                            <select style="width: 50%;" type="date" class="form-control input-format-type"></select>
+                            
+                        </div>
+    
+                        <div class="page-class-input-format input-format none-border-left">
+                            <div style="width: 50%;" class="input-format-title">
+                                <span style="margin-left: 5px;">Detailed Location</span>
+                             </div>
+                            <input style="width: 50%;" type="text" class="form-control input-format-type"/>
+                        </div>
+                    </div>
+                    
+                    <div class="input-row">
+    
+                        <div class="page-class-input-format input-format">
+                            <div style="width: 50%;" class="input-format-title">
+                                <span style="margin-left: 5px;">Budget Code *</span>
+                             </div>
+                            
+                            <select style="width: 50%;" type="date" class="form-control input-format-type"></select>
+                            
+                        </div>
+    
+                        <div class="page-class-input-format input-format none-border-left">
+                            <div style="width: 50%;" class="input-format-title">
+                                <span style="margin-left: 5px;">Estimated Budget *</span>
+                             </div>
+                            <input style="width: 50%;" type="text" class="form-control input-format-type"/>
+                        </div>
+                    </div>
+
+                    <div class="input-row">
+    
+                        <div class="page-class-input-format input-format">
+                            <div style="width: 50%;" class="input-format-title">
+                                <span style="margin-left: 5px;">Class Admin *</span>
+                             </div>
+                            
+                            <select style="width: 50%;" type="date" class="form-control input-format-type"></select>
+                            
+                        </div>
+    
+                        <div class="page-class-input-format input-format none-border-left">
+                            <div style="width: 50%;" class="input-format-title">
+                                <span style="margin-left: 5px;">Weighted Number</span>
+                             </div>
+                            <input style="width: 50%;" type="text" class="form-control input-format-type"/>
+                        </div>
+                    </div>
+
+                    <div class="input-row">
+                        <div class="page-class-input-format input-format bordered-bottom">
+                            <div style="width: 25%;" class="input-format-title">
+                                <span style="margin-left: 5px;">History</span>
+                             </div>
+                            <input style="width: 75%;" type="time" class="form-control input-format-type fill-color"></select>
+                        </div>
+                    </div>
+
+                  </div>
+
+                  <br>
+
+                  <div id="page-class-detail">
+                    <div id="detail-title" class="page-class-item-title">
+                      <button
+                          type="button"
+                          class="btn btn-outline dropdown-toggle dropdown-toggle-split page-btn-class"
+                          id="btn-general"
+                          data-toggle="dropdown"
+                          aria-haspopup="true"
+                          aria-expanded="false"
+                      ></button>
+                      <span class="page-class-title-name">Detail<span>
+                    </div>
+                    <div id="detail-content">
+  
+                      <div class="input-row">
+                          <div class="page-class-input-format input-format">
+                              <div style="width: 40%;" class="input-format-title">
+                                 <span style="margin-left: 5px;">Subject Type</span>
+                              </div>
+                              <select style="width: 60%;" type="text" class="form-control input-format-type"></select>
+                          </div>
+      
+                          <div class="page-class-input-format input-format none-border-left">
+                              <div style="width: 40%;" class="input-format-title">
+                                  <span style="margin-left: 5px;">Sub-Subject Type</span>
+                              </div>
+                              <select style="width: 60%;" type="text" class="form-control input-format-type"></select>
+                          </div>
+      
+                          <div class="page-class-input-format input-format none-border-left">
+                              <div style="width: 40%;" class="input-format-title">
+                                  <span style="margin-left: 5px;">Delivery Type</span>
+                               </div>
+                              <select style="width: 60%;" type="text" class="form-control input-format-type"></select>
+                          </div>
+                      </div>
+  
+                      <div class="input-row">
+                          <div class="page-class-input-format input-format">
+                              <div style="width: 40%;" class="input-format-title">
+                                  <span style="margin-left: 5px;">Format Type</span>
+                               </div>
+                              <select style="width: 60%;" type="text" class="form-control input-format-type"></select>
+                          </div>
+      
+                          <div class="page-class-input-format input-format none-border-left">
+                              <div style="width: 40%;" class="input-format-title">
+                                  <span style="margin-left: 5px;">Scope</span>
+                               </div>
+                              <select style="width: 60%;" type="text" class="form-control input-format-type"></select>
+                          </div>
+      
+                          <div class="page-class-input-format input-format none-border-left">
+                              <div style="width: 40%;" class="input-format-title">
+                                  <span style="margin-left: 5px;">Supplier / Partner</span>
+                               </div>
+                              <input style="width: 60%;" type="text"class="form-control input-format-type"/>
+                          </div>
+                      </div>
+  
+                      <div class="input-row">
+      
+                          <div class="page-class-input-format input-format">
+                              <div style="width: 50%;" class="input-format-title">
+                                  <span style="margin-left: 5px;">Actual Start Date *</span>
+                               </div>
+                              
+                              <input style="width: 50%;" type="text" class="form-control input-format-type fill-color"/>
+                              
+                          </div>
+      
+                          <div class="page-class-input-format input-format none-border-left">
+                              <div style="width: 50%;" class="input-format-title">
+                                  <span style="margin-left: 5px;">Actual End Date *</span>
+                               </div>
+                              <input style="width: 50%;" type="text" class="form-control input-format-type fill-color"/>
+                          </div>
+                      </div>
+  
+                      <div class="input-row">
+      
+                          <div class="page-class-input-format input-format">
+                              <div style="width: 50%;" class="input-format-title">
+                                  <span style="margin-left: 5px;">Master Trainer</span>
+                               </div>
+                              
+                              <select style="width: 50%;" type="date" class="form-control input-format-type"></select>
+                              
+                          </div>
+      
+                          <div class="page-class-input-format input-format none-border-left">
+                              <div style="width: 50%;" class="input-format-title">
+                                  <span style="margin-left: 5px;">Trainer</span>
+                               </div>
+                              <input style="width: 50%;" type="text" class="form-control input-format-type"/>
+                          </div>
+                      </div>
+                      
+                      <div class="input-row">
+      
+                          <div class="page-class-input-format input-format bordered-bottom">
+                              <div style="width: 50%;" class="input-format-title">
+                                  <span style="margin-left: 5px;">Cirriculumn</span>
+                               </div>
+                              
+                              <input style="width: 50%;" type="file" class="form-control input-format-type"></select>
+                              
+                          </div>
+      
+                          <div class="page-class-input-format input-format none-border-left bordered-bottom">
+                              <div style="width: 50%;" class="input-format-title">
+                                  <span style="margin-left: 5px;">Remarks</span>
+                               </div>
+                              <input style="width: 50%;" type="text" class="form-control input-format-type"/>
+                          </div>
+                      </div>
+  
+  
+                    </div>
+                    <div id="general-input-detail"></div>
+                  </div>
+
+                  <br>
+
+
+                  <div id="page-class-budget">
+                    <div id="budget-title" class="page-class-item-title">
+                      <button
+                          type="button"
+                          class="btn btn-outline dropdown-toggle dropdown-toggle-split page-btn-class"
+                          id="btn-general"
+                          data-toggle="dropdown"
+                          aria-haspopup="true"
+                          aria-expanded="false"
+                      ></button>
+                      <span class="page-class-title-name">Budget<span>
+                    </div>
+                    <div id="budget-content">
+
+                        <div class="input-row">
+      
+                          <div class="page-class-input-format input-format">
+                              <div style="width: 50%;" class="input-format-title">
+                                  <span style="margin-left: 5px;">Total</span>
+                               </div>
+                              
+                              <input style="width: 50%;" type="text" class="form-control input-format-type fill-color"/>
+                              
+                          </div>
+      
+                          <div class="page-class-input-format input-format none-border-left">
+                              <div style="width: 50%;" class="input-format-title">
+                                  <span style="margin-left: 5px;">Over Budget</span>
+                               </div>
+                              <input style="width: 50%;" type="text" class="form-control input-format-type fill-color"/>
+                          </div>
+                      </div>
+
+                    <div class="input-row">
+                      <div class="page-class-input-format input-form" style="width: 100%; border: 1px solid;">
+                          <button
+                              type="button"
+                              class="btn btn-outline page-btn-class"
+                              id="btn-budget-create"
+                              data-toggle="dropdown"
+                              aria-haspopup="true"
+                              aria-expanded="false"
+                              style="background-color: rgb(240, 238, 236); color: green;"
+                          ><i class="fa-solid fa-circle-plus"></i></button>
+                          <div class="flex-row-container">
+                            <div style="flex: 1; height: 100%;" class="bordered-right fill-aliceblue-color flex-row-container">
+                              <span style="margin-left: 5px;">Unit</span>
+                            </div>
+                            <div style="flex: 1; height: 100%;" class="bordered-right fill-aliceblue-color flex-row-container">
+                              <span style="margin-left: 5px;">Unit Expense</span>
+                            </div>
+                            <div style="flex: 1; height: 100%;" class="bordered-right fill-aliceblue-color flex-row-container">
+                              <span style="margin-left: 5px;">Quantity</span>
+                            </div>
+                            <div style="flex: 1; height: 100%;" class="bordered-right fill-aliceblue-color flex-row-container">
+                              <span style="margin-left: 5px;">Amount</span>
+                            </div>
+                            <div style="flex: 1; height: 100%;" class="bordered-right fill-aliceblue-color flex-row-container">
+                              <span style="margin-left: 5px;">Tax</span>
+                            </div>
+                            <div style="flex: 1; height: 100%;" class="bordered-right fill-aliceblue-color flex-row-container">
+                              <span style="margin-left: 5px;">Sum</span>
+                            </div>
+                            <div style="flex: 1; height: 100%;" class="bordered-right fill-aliceblue-color flex-row-container">
+                              <span style="margin-left: 5px;">Note</span>
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+
+      
+
+                    <div class="input-row">
+                      <div class="page-class-input-format input-form" style="width: 100%; border: 1px solid;">
+                          <button
+                              type="button"
+                              class="btn btn-outline page-btn-class"
+                              id="btn-budget-create"
+                              data-toggle="dropdown"
+                              aria-haspopup="true"
+                              aria-expanded="false"
+                              style="background-color: rgb(240, 238, 236); color: red;"
+                          ><i class="fa-solid fa-trash-can"></i></button>
+                          <div class="flex-row-container none-border-top">
+                            <input type="text" style="flex: 1; height: 100%;" class="bordered-right flex-row-container none-border-top form-control none-border-radius"/>
+                            <input type="text" style="flex: 1; height: 100%;" class="bordered-right flex-row-container none-border-top form-control none-border-radius"/>
+                            <input type="text" style="flex: 1; height: 100%;" class="bordered-right flex-row-container none-border-top form-control none-border-radius"/>
+                            <input type="text" style="flex: 1; height: 100%;" class="bordered-right flex-row-container none-border-top form-control none-border-radius"/>
+                            <input type="text" style="flex: 1; height: 100%;" class="bordered-right flex-row-container none-border-top form-control none-border-radius"/>
+                            <input type="text" style="flex: 1; height: 100%;" class="bordered-right flex-row-container none-border-top form-control none-border-radius"/>
+                            <input type="text" style="flex: 1; height: 100%;" class="bordered-right flex-row-container none-border-top form-control none-border-radius"/>
+                          </div>
+                        </div>
+                    </div>
+
+                  </div>
+
+                </div>
+
+                <br>
+
+                <div id="page-class-audit">
+                  <div id="audit-title" class="page-class-item-title">
+                    <button
+                        type="button"
+                        class="btn btn-outline dropdown-toggle dropdown-toggle-split page-btn-class"
+                        id="btn-general"
+                        data-toggle="dropdown"
+                        aria-haspopup="true"
+                        aria-expanded="false"
+                    ></button>
+                    <span class="page-class-title-name">Audit<span>
+                  </div>
+                  <div id="audit-content">
+
+                  <div class="input-row">
+                    <div class="page-class-input-format input-form" style="width: 100%; border: 1px solid;">
+                        <button
+                            type="button"
+                            class="btn btn-outline page-btn-class"
+                            id="btn-budget-create"
+                            data-toggle="dropdown"
+                            aria-haspopup="true"
+                            aria-expanded="false"
+                            style="background-color: rgb(240, 238, 236); color: green;"
+                        ><i class="fa-solid fa-circle-plus"></i></button>
+                        <div class="flex-row-container">
+                          <div style="flex: 1; height: 100%;" class="bordered-right fill-aliceblue-color flex-row-container">
+                            <span style="margin-left: 5px;">Date</span>
+                          </div>
+                          <div style="flex: 1; height: 100%;" class="bordered-right fill-aliceblue-color flex-row-container">
+                            <span style="margin-left: 5px;">Event Category</span>
+                          </div>
+                          <div style="flex: 1; height: 100%;" class="bordered-right fill-aliceblue-color flex-row-container">
+                            <span style="margin-left: 5px;">Related People</span>
+                          </div>
+                          <div style="flex: 1; height: 100%;" class="bordered-right fill-aliceblue-color flex-row-container">
+                            <span style="margin-left: 5px;">Action</span>
+                          </div>
+                          <div style="flex: 1; height: 100%;" class="bordered-right fill-aliceblue-color flex-row-container">
+                            <span style="margin-left: 5px;">PIC</span>
+                          </div>
+                          <div style="flex: 1; height: 100%;" class="bordered-right fill-aliceblue-color flex-row-container">
+                            <span style="margin-left: 5px;">Deadline</span>
+                          </div>
+                          <div style="flex: 1; height: 100%;" class="bordered-right fill-aliceblue-color flex-row-container">
+                            <span style="margin-left: 5px;">Note</span>
+                          </div>
+                        </div>
+                      </div>
+                  </div>
+
+    
+
+                  <div class="input-row">
+                    <div class="page-class-input-format input-form" style="width: 100%; border: 1px solid;">
+                        <button
+                            type="button"
+                            class="btn btn-outline page-btn-class"
+                            id="btn-budget-create"
+                            data-toggle="dropdown"
+                            aria-haspopup="true"
+                            aria-expanded="false"
+                            style="background-color: rgb(240, 238, 236); color: red;"
+                        ><i class="fa-solid fa-trash-can"></i></button>
+                        <div class="flex-row-container none-border-top">
+                          <input type="date" style="flex: 1; height: 100%;" class="bordered-right flex-row-container none-border-top form-control none-border-radius"/>
+                          <select style="flex: 1; height: 100%;" class="bordered-right flex-row-container none-border-top form-control none-border-radius"></select>
+                          <input type="text" style="flex: 1; height: 100%;" class="bordered-right flex-row-container none-border-top form-control none-border-radius"/>
+                          <input type="text" style="flex: 1; height: 100%;" class="bordered-right flex-row-container none-border-top form-control none-border-radius"/>
+                          <input type="text" style="flex: 1; height: 100%;" class="bordered-right flex-row-container none-border-top form-control none-border-radius"/>
+                          <input type="date" style="flex: 1; height: 100%;" class="bordered-right flex-row-container none-border-top form-control none-border-radius"/>
+                          <input type="text" style="flex: 1; height: 100%;" class="bordered-right flex-row-container none-border-top form-control none-border-radius"/>
+                        </div>
+                      </div>
+                  </div>
+                  
+                </div>
+
+              </div>
+
+                </div>
+              </div>
+
+              <br>
+              
+            </div>
+            <div id="page-detail-content-buttons">
+              <button type="button" class="btn" id="btn-submit-create-class">Submit</button>
+              <button type="button" class="btn" id="btn-close-create-class"><i class="fa-solid fa-left-long" style="margin-right: 5px; color: red;"></i>Close</button>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <footer>
+      <div class="footer-content">
+        <div class="footer-menu">
+          <div>
+            <i class="fa-solid fa-circle-question"></i>
+            <a href="">Help</a>
+          </div>
+
+          &emsp;
+
+          <div>
+            <i class="fa-regular fa-calendar-check"></i>
+            <a href="">Create ticket on F12.0</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

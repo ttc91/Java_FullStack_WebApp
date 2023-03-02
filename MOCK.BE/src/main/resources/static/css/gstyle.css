@@ -1,0 +1,404 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-size: 1.4rem;
+}
+
+.page-container {
+	/* max-width: 1600px; */
+	margin: auto;
+	border: 1px solid #333;
+}
+
+.header-part {
+	display: flex;
+	/* background-color: #25316D; */
+	background: linear-gradient(to right, #205081, #5f6f94);
+	align-items: center;
+	height: 60px;
+}
+
+.img-logo_container {
+	flex-basis: 15%;
+	height: 100%;
+}
+
+.img-logo {
+	height: 100%;
+	object-fit: contain;
+}
+
+.header-content {
+	flex-basis: 65%;
+	font-size: 1.8rem;
+	font-weight: 600;
+	color: white;
+}
+
+.body-container {
+	width: 100%;
+}
+.container_page {
+	display: flex;
+	width: 100%;
+	height: 100%;
+}
+
+#sidebar {
+	flex-basis: 17%;
+	background-color: #dddddd;
+	text-align: end;
+}
+
+#sidebar i {
+	margin: 28px;
+	font-size: 2rem;
+	color: #3987e1;
+}
+
+#sidebar i:hover {
+	color: red;
+	cursor: pointer;
+}
+
+.content-container {
+	flex-basis: 83%;
+	padding: 20px;
+}
+.header-content_title {
+	padding-bottom: 20px;
+	font-size: 2.2rem;
+	font-weight: 600;
+	border-bottom: 1px solid #333;
+}
+.content {
+	display: flex;
+	flex-direction: row;
+	margin-top: 10px;
+}
+
+.form-login {
+	flex-basis: 35%;
+}
+
+.input-login {
+	display: flex;
+	margin: 10px 0;
+}
+
+.input-login-title {
+	flex-basis: 30%;
+}
+.input-login-username {
+	flex-basis: 50%;
+	padding: 4px;
+}
+
+.input-login-password {
+	flex-basis: 50%;
+	padding: 4px;
+}
+
+.note_warning {
+	width: 75%;
+	font-size: 1.2rem;
+	text-align: end;
+}
+
+.note_warning-child {
+	border-radius: 4px;
+	width: 70%;
+	display: inline-block;
+	text-align: start;
+	background-color: #ffffe5;
+	padding: 20px 20px 50px 50px;
+}
+
+.note-header {
+	font-weight: 600;
+	margin-bottom: 20px;
+}
+.note-content {
+	margin-bottom: 5px;
+}
+.note-more {
+	display: block;
+	text-align: end;
+	margin-bottom: 10px;
+}
+.footer-note {
+	padding-top: 20px;
+	border-top: 1px dashed #333;
+}
+
+.btn-div {
+	width: 80%;
+	text-align: end;
+}
+.btn {
+	padding: 6px 26px;
+	font-size: 1.4rem;
+	background-color: #ddd;
+	color: #000;
+	border: 1px solid #7f7f7f;
+}
+.btn-primary {
+}
+
+.btn-login {
+	margin-right: 19px;
+}
+
+.google-text {
+	font-size: 1.6rem;
+	font-weight: 600;
+	display: inline;
+	background: linear-gradient(
+		to right,
+		rgb(243, 13, 13) 0%,
+		#0a9b46 50%,
+		#19046c 100%
+	);
+	-webkit-background-clip: text;
+	color: transparent;
+}
+
+.footer-part {
+	padding: 20px 0;
+	background-color: #ddd;
+	text-align: end;
+	border-top: 1px solid #333;
+}
+.footer-part_container {
+	display: inline-flex;
+	width: 80%;
+}
+.footer-item {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	text-decoration: none;
+	opacity: 0.8;
+	font-weight: 600;
+	color: #205081;
+}
+
+.footer-item i {
+	margin: 0 10px;
+}
+
+.footer-item:first-child {
+	margin-right: 60px;
+}
+
+.footer-item:hover {
+	cursor: pointer;
+	text-decoration: none;
+	opacity: 1;
+}
+
+/* Class List */
+.header-user_info {
+	flex-basis: 20%;
+	font-size: 1.4rem;
+	font-weight: 500;
+	color: #fff;
+}
+.header-user_info-top {
+}
+.header-user_content {
+}
+.header-user_link {
+	color: #fff;
+}
+.header-user_info-bot {
+}
+.header-user_logout {
+	color: #fff;
+}
+
+.sidebar-content {
+	text-align: start;
+	font-size: 1.6rem;
+	margin: 0 10px;
+}
+.input-group_sidebar {
+}
+.input-sidebar {
+	padding: 5px;
+	width: 80%;
+}
+#btn-dropdown {
+	padding: 0 10px;
+}
+
+#btn-dropdown::after {
+	border-top: 10px solid #333;
+	border-right: 8px solid transparent;
+	border-left: 8px solid transparent;
+}
+
+.input-group-append {
+	display: block;
+	width: 100%;
+	position: relative;
+}
+.input-group-append select{
+	width: 100%;
+	padding: 8px;
+}
+
+.sidebar-menu {
+	margin-top: 20px;
+}
+
+#ul-sidebar-menu {
+}
+
+#ul-sidebar-menu li {
+	margin: 10px 20px;
+	list-style-position: inside;
+}
+
+#ul-sidebar-menu li::marker {
+	color: blue;
+	font-size: 2rem;
+}
+
+#ul-sidebar-menu li a {
+	font-size: 1.8rem;
+	font-weight: 600;
+}
+
+.header-list-content{
+	padding-bottom: 20px;
+	border-bottom: 1px solid #333;
+}
+
+.header-list-content p{
+	font-size: 2.4rem;
+	font-weight: 600;
+	text-transform: uppercase;
+}
+.list-content-container{
+	margin-top: 20px;
+	height: 100%;
+}
+.list-content-top{
+	display: flex;
+	flex-wrap: wrap;
+}
+.list-content_item{
+	flex-basis: 25%;
+	display: flex;
+	align-items: center;
+	width: 100%;
+	margin-bottom: 20px;
+	margin-right: 80px;
+}
+.list-content_item-label{
+	flex-basis: 30%;
+	font-size: 1.6rem;
+	font-weight: 600;
+	color: #205081;
+}
+
+.input-group-append{
+
+}
+.list-content_date{
+	width: 100%;
+	padding: 6px;
+	border-radius: 4px;
+}
+.list-content_item-input{
+	flex-basis: 70%;
+}
+.input-sidebar:focus{
+	border: 1px solid rgb(8, 12, 220);
+}
+
+.input-sidebar{
+	outline: none;
+}
+
+.list-content_item-search i{
+	margin-right: 10px;
+}
+
+.list-content_item-button{
+	justify-content: flex-end;
+}
+
+.list-content_item-search{
+	padding: 6px 20px;
+	border-radius: 3px;
+}
+.list-content_page-number{
+ display: flex;
+ margin-top: 10px;
+ align-items: center;
+
+}
+.list-content_page-left{
+	flex-basis: 50%;
+	display: flex;
+	justify-content: space-between;
+}
+.list-content_page-size{
+	display: flex;
+	align-items: center;
+}
+.list-content_page-size p,.list-content_page-switch p{
+	margin-right: 20px;
+}
+
+.list-content_page-size select,.list-content_page-switch select{
+	padding: 5px;
+	border-radius: 3px;
+}
+
+.list-content_page-switch{
+	display: flex;
+	align-items: center;
+}
+.list-content_page-right{
+	flex-basis: 50%;
+	text-align: end;
+}
+.list-content_page-right button{
+	padding: 3px 10px ;
+	margin-left: 4px;
+}
+.list-content-advanced{
+	margin-top: 20px;
+	display: flex;
+}
+.list-content-advanced-btn{
+	padding: 5px 10px;
+	margin-right: 50px;
+	flex-basis: 25%;
+	transition: background-color linear 0.4s;
+}
+.list-content-advanced-btn i{
+	margin-right: 4px;
+}
+
+.btn-add:hover {
+	color: #fff;
+	background-color: #0a9b46;
+	font-weight: 600;
+}
+.btn-update:hover{
+	color: #fff;
+	background-color: rgb(57, 57, 210);
+	opacity: 0.6;
+	font-weight: 600;
+
+}
+.btn-cancel:hover{
+	color: #fff;
+	background-color: rgb(228, 101, 101);
+	font-weight: 600;
+}

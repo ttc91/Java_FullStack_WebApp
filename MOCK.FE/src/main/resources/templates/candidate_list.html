@@ -1,0 +1,365 @@
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+	<html lang="en">
+		<head>
+			<title>Edit Profile</title>
+			<!-- Required meta tags -->
+			<meta charset="utf-8" />
+			<meta
+				name="viewport"
+				content="width=device-width, initial-scale=1, shrink-to-fit=no"
+			/>
+			<link
+				rel="stylesheet"
+				href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+			/>
+			<!-- Bootstrap CSS -->
+			<link
+				rel="stylesheet"
+				href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+			/>
+			<link
+				rel="stylesheet"
+				href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css"
+			/>
+			<link rel="stylesheet" th:href="@{/css/gstyle.css}" />
+			<link rel="stylesheet" th:href="@{/css/base.css}" />
+			<style>
+				table {
+					text-align: center;
+				}
+
+				table tr {
+					counter-increment: rowNumber;
+				}
+				table tr td:nth-child(2)::before {
+					content: counter(rowNumber);
+				}
+
+				.list-content_page-change {
+					margin: 0px 2px;
+					font-weight: 600;
+					color: rgb(65 96 139);
+					border: 1px solid #333;
+					display: inline-block;
+					background-color: #f1eded;
+				}
+
+				.list-content_page-change:hover {
+					background-color: #375b88;
+					color: #fff;
+					text-decoration: none;
+				}
+
+				.alert_delete, .alert_update{
+					width: 420px;
+					font-size: 1.6rem;
+					padding: 10px;
+					background-color: #db5656;
+					color: #fff;
+					font-weight: 600;
+					z-index: 99;
+					position: absolute;
+					top: 10%;
+					right: 0;
+					border: 1px solid #333;
+				}
+				.alert_update{
+					background-color: #e3e314!important;
+					color: #333;
+				}
+			</style>
+		</head>
+		<body>
+			<div class="page-container">
+
+				<header class="header-part">
+					<div class="img-logo_container">
+						<img
+							src="https://cdn.haitrieu.com/wp-content/uploads/2022/01/Logo-FPT.png"
+							alt="logo-fpt"
+							class="img-logo"
+						/>
+					</div>
+					<div class="header-content">FSOFT HR UTILITY</div>
+					<div class="header-user_info">
+						<div class="header-user_info-top">
+							<p class="header-user_content">
+								Welcome,
+								<a href="#" class="header-user_link" sec:authentication="name"></a>
+							</p>
+						</div>
+						<div class="header-user_info-bot">
+							<a href="#" class="header-user_logout">Logout</a>
+						</div>
+					</div>
+				</header>
+				<div
+					class="alert_delete"
+					id="alert_delete"
+					th:style="${delete}==false?'display:block':'display:none'"
+				>
+					<p
+						th:style="${delete_error}!='choose'?'display:inline-block':'display:none'"
+					>
+						<i class="fa-solid fa-triangle-exclamation"></i>
+						There was an error in the process of deleting the candidate, please
+						check the results of the candidate or related cases.
+					</p>
+					<p
+						th:style="${delete_error}=='choose'?'display:inline-block':'display:none'"
+					>
+						<i class="fa-solid fa-triangle-exclamation"></i>
+						Please choose candidate to delete.
+					</p>
+				</div>
+				<div
+					class="alert_update"
+					id="alert_update"
+					th:style="${update}==false?'display:block':'display:none'"
+				>
+					<p
+						th:style="${update_error}=='choose'?'display:inline-block':'display:none'"
+					>
+						<i class="fa-solid fa-triangle-exclamation"></i>
+						Please choose candidate to delete.
+					</p>
+				</div>
+				<div class="body-container">
+					<div class="container_page" style="height: auto">
+						<div id="sidebar" style="min-height: 800px">
+							<i class="fa-sharp fa-solid fa-angles-left"></i>
+							<div class="sidebar-content">
+								<div>
+									<p style="font-size: 1.8rem; margin-bottom: 10px">
+										Your role now is:
+									</p>
+								</div>
+								<div class="input-group_sidebar">
+									<div class="input-group-append">
+										<select class="input-sidebar">
+											<option th:each="authority : ${#authentication.getAuthorities()}"
+										th:text="${authority.getAuthority()}" >
+									</option>
+										</select>
+									</div>
+								</div>
+
+								<div class="sidebar-menu">
+									<ul id="ul-sidebar-menu">
+										<li><a href="">Dashboard</a></li>
+										<li>
+											<a
+												href="fe_class_list.html"
+												th:href="@{/api/v1/class_batch}"
+												>Class Management</a
+											>
+										</li>
+										<li>
+											<a th:href="@{/api/v1/candidate}">Candidate Management</a>
+										</li>
+										<li>
+											<a
+												href="fe_trainer_list.html"
+												th:href="@{/api/v1/trainer/get_all_trainers}"
+												>Trainer Management</a
+											>
+										</li>
+										<li><a th:href="@{/api/v1/trainee/get_all}">Trainee Management</a></li>
+										<li><a href="">General Setting</a></li>
+									</ul>
+								</div>
+							</div>
+						</div>
+						<div class="content-container">
+							<div class="header-list-content">
+								<p style="color: rgb(20, 9, 116)">Candidate Listing</p>
+							</div>
+							<div class="list-content-container">
+								<form
+									class="list-content-body"
+									th:action="@{/api/v1/candidate/delete}"
+									method="post"
+								>
+									<div>
+										<table class="table table-bordered">
+											<thead style="background-color: #cacaca">
+												<tr>
+													<th scope="col">
+														<input type="checkbox" disabled />
+													</th>
+													<th scope="col">#</th>
+													<th scope="col">Empl ID</th>
+													<th scope="col">Account</th>
+													<th scope="col">Name</th>
+													<th scope="col" class="th-sm">Status</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr th:each="item : ${candidates}">
+													<td scope="row">
+														<input
+															type="checkbox"
+															name="id_delete"
+															th:value="${item.id}"
+														/>
+													</td>
+													<td scope="row"></td>
+													<td>
+														<a
+															th:href="@{'/api/v1/candidate/'+${item.id}}"
+															th:text="${item.id}"
+														></a>
+													</td>
+													<td
+														th:text="${item.traineeCandidateProfile.account}"
+													></td>
+													<td
+														th:text="${item.traineeCandidateProfile.fullName}"
+													></td>
+													<td th:text="${item.status}"></td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+									<div class="list-content_page-number">
+										<div style="flex-basis: 30%">
+											Show
+											<span style="font-weight: 700; color: #375b88"
+												>[[${currentPage}]] - [[${totalPage}]]</span
+											>
+											of total
+										</div>
+										<div
+											class="list-content_page-left"
+											style="
+												width: 70%;
+												justify-content: end;
+												flex-basis: auto;
+												height: 100%;
+											"
+										>
+											<div
+												class="list-content_page-switch"
+												style="display: flex; flex-direction: column"
+											>
+												<div>
+													<a
+														class="list-content_page-change"
+														style="padding: 5px 6px"
+														th:href="@{'/api/v1/candidate/page/'+${currentPage - 1}}"
+														th:if="${currentPage > 1}"
+													>
+														<i class="fa-sharp fa-solid fa-angles-left"></i>
+													</a>
+
+													<a
+														style="padding: 2px 8px"
+														class="list-content_page-change"
+														th:href="@{'/api/v1/candidate/page/'+${i}}"
+														th:if="${totalPage > 0}"
+														th:each="i:${#numbers.sequence(1,totalPage)}"
+														>[[${i}]]</a
+													>
+
+													<a
+														style="padding: 5px 6px"
+														class="list-content_page-change"
+														th:if="${currentPage < totalPage}"
+														th:href="@{'/api/v1/candidate/page/'+${currentPage + 1}}"
+													>
+														<i class="fa-sharp fa-solid fa-angles-right"></i>
+													</a>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="list-content-advanced">
+										<button
+											class="list-content-advanced-btn btn-add"
+											type="button"
+										sec:authorize="hasAnyAuthority('FA_MANAGEMENT', 'FA_REC', 'SYSTEM_ADMIN')">
+											<a
+												th:href="@{/api/v1/candidate/create}"
+												style="
+													color: #333;
+													width: 100%;
+													display: block;
+													padding: 5px 10px;
+												"
+											>
+												<i
+													class="fa-solid fa-circle-plus"
+													style="color: green"
+												></i
+												>New Candidate
+											</a>
+										</button>
+										<button
+											type="submit"
+											th:formaction="@{/api/v1/candidate/update}"
+											th:formmethod="get"
+											class="list-content-advanced-btn btn-update" sec:authorize="hasAnyAuthority('FA_MANAGEMENT', 'FA_REC', 'SYSTEM_ADMIN')"
+										>
+											<a
+												style="
+													color: #333;
+													width: 100%;
+													display: block;
+													padding: 5px 10px;
+												"
+											>
+												<i
+													class="fa-solid fa-circle-arrow-up"
+													style="color: blue"
+												></i
+												>Update Candidate
+											</a></button
+										><button
+											class="list-content-advanced-btn btn-cancel"
+											type="submit" sec:authorize="hasAnyAuthority('FA_MANAGEMENT', 'FA_REC', 'SYSTEM_ADMIN')"
+										>
+											<i class="fa-solid fa-ban" style="color: red"></i>Delete
+											Candidate
+										</button>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<script>
+				// Execute something when DOM is ready:
+				var alert = document.getElementById("alert_delete");
+				var update = document.getElementById("alert_update");
+
+				setTimeout(function () {
+					hide(alert);
+					hide(update);
+				}, 5000);
+				function hide(element) {
+					element.style.display = "none";
+				}
+			</script>
+
+			<script
+				src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+				integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+				crossorigin="anonymous"
+			></script>
+			<script
+				src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+				integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+				crossorigin="anonymous"
+			></script>
+			<script
+				src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+				integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+				crossorigin="anonymous"
+			></script>
+			<script type="text/javascript" th:src="@{/js/script.js}"></script>
+		</body>
+	</html>
+</html>

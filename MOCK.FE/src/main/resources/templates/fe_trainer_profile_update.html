@@ -1,0 +1,280 @@
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<html lang="en">
+<head>
+<title>Title</title>
+<!-- Required meta tags -->
+<meta charset="utf-8" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+<!-- Bootstrap CSS -->
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+	crossorigin="anonymous" />
+
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" />
+<link rel="stylesheet" th:href="@{/css/cstyle.css}" />
+</head>
+<body>
+	<!-- Optional JavaScript -->
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+	<div th:replace="layout.html :: header"></div>
+
+	<div class="page-wrapper">
+		<nav id="sidebar" class="sidebar-wrapper">
+			<div class="sidebar-content">
+				<div class="sidebar-brand">
+					<a href="" id="back-button"> <i class="fa-solid fa-angles-left"></i>
+					</a>
+				</div>
+
+				<div class="sidebar-header">
+					<div>
+						<span>Your role now is: </span>
+					</div>
+					<div class="input-group_sidebar">
+						<div class="input-group-append">
+							<select class="input-sidebar">
+								<option
+									th:each="authority : ${#authentication.getAuthorities()}"
+									th:text="${authority.getAuthority()}"></option>
+							</select>
+						</div>
+					</div>
+				</div>
+
+				<div class="sidebar-menu">
+					<ul id="ul-sidebar-menu">
+						<li><a href="">Dashboard</a></li>
+						<li><a th:href="@{/api/v1/class_batch}">Class Management</a></li>
+						<li><a th:href="@{/api/v1/candidate}">Candidate
+								Management</a></li>
+						<li><a th:href="@{/api/v1/trainer/get_all_trainers}">Trainer
+								Management</a></li>
+						<li><a th:href="@{/api/v1/trainee/get_all}">Trainee
+								Management</a></li>
+						<li><a href="">General Setting</a></li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+
+		<main class="page-content">
+			<div id="page-title">
+				<h1>Trainer Information</h1>
+			</div>
+			<div id="page-detail">
+				<div id="page-detail-content">
+					<div id="page-detail-content-input">
+						<div id="page-class-input">
+							<div id="page-class-general">
+								<div id="general-title" class="page-class-item-title">
+									<button type="button"
+										class="btn btn-outline dropdown-toggle dropdown-toggle-split page-btn-class"
+										id="btn-general" data-toggle="dropdown" aria-haspopup="true"
+										aria-expanded="false"></button>
+									<span class="page-class-title-name">General<span>
+								</div>
+								<div id="general-content">
+									<form th:action="@{/api/v1/trainer}" id="form1" method="POST"
+										th:object="${trainer}">
+										<div class="input-row">
+											<div class="page-class-input-format input-format">
+												<div style="width: 40%;" class="input-format-title">
+													<span style="margin-left: 5px;">Trainer Code</span>
+												</div>
+												<input style="width: 60%;" type="text"
+													class="form-control input-format-type fill-color"
+													th:field="*{trainerId}"
+													th:value="${trainer.getTrainerId()}" readonly />
+											</div>
+
+											<div
+												class="page-class-input-format input-format none-border-left">
+												<div style="width: 40%;" class="input-format-title">
+													<span style="margin-left: 5px;">Username</span>
+												</div>
+												<input style="width: 60%;" type="text"
+													class="form-control input-format-type fill-color"
+													th:field="*{username}" th:value="${trainer.getUsername()}"
+													readonly />
+											</div>
+
+											<div
+												class="page-class-input-format input-format none-border-left">
+												<div style="width: 40%;" class="input-format-title">
+													<span style="margin-left: 5px;">Trainer type</span>
+												</div>
+												<input style="width: 60%;" type="text"
+													class="form-control input-format-type" th:field="*{type}"
+													th:value="${trainer.getType()}" />
+											</div>
+										</div>
+
+										<div class="input-row">
+											<div class="page-class-input-format input-format">
+												<div style="width: 40%;" class="input-format-title">
+													<span style="margin-left: 5px;">Full Name</span>
+												</div>
+												<input style="width: 60%;" type="text"
+													class="form-control input-format-type"
+													th:field="*{trainerProfile.fullName}"
+													th:value="${trainer.getTrainerProfile().getFullName()}" />
+											</div>
+
+											<div
+												class="page-class-input-format input-format none-border-left">
+												<div style="width: 40%;" class="input-format-title">
+													<span style="margin-left: 5px;">Gender</span>
+												</div>
+												<select style="width: 60%;"
+													class="form-control input-format-type"
+													th:field="*{trainerProfile.gender}">
+
+													<option value="true">Male</option>
+													<option value="false">Female</option>
+
+												</select>
+											</div>
+
+											<div
+												class="page-class-input-format input-format none-border-left">
+												<div style="width: 40%;" class="input-format-title">
+													<span style="margin-left: 5px;">Unit</span>
+												</div>
+												<input style="width: 60%;" type="text"
+													class="form-control input-format-type"
+													th:field="*{trainerProfile.unit}"
+													th:value="${trainer.getTrainerProfile().getUnit()}" />
+											</div>
+										</div>
+
+										<div class="input-row">
+											<div class="page-class-input-format input-format">
+												<div style="width: 40%;" class="input-format-title">
+													<span style="margin-left: 5px;">Major</span>
+												</div>
+												<input style="width: 60%;" type="text"
+													class="form-control input-format-type"
+													th:field="*{trainerProfile.major}"
+													th:value="${trainer.getTrainerProfile().getMajor()}" />
+											</div>
+
+											<div
+												class="page-class-input-format input-format none-border-left">
+												<div style="width: 40%;" class="input-format-title">
+													<span style="margin-left: 5px;">Phone</span>
+												</div>
+												<input style="width: 60%;" type="text"
+													class="form-control input-format-type"
+													th:field="*{trainerProfile.phone}"
+													th:value="${trainer.getTrainerProfile().getPhone()}" />
+											</div>
+
+											<div
+												class="page-class-input-format input-format none-border-left">
+												<div style="width: 40%;" class="input-format-title">
+													<span style="margin-left: 5px;">Email</span>
+												</div>
+												<input style="width: 60%;" type="email"
+													class="form-control input-format-type"
+													th:field="*{trainerProfile.email}"
+													th:value="${trainer.getTrainerProfile().getEmail()}" />
+											</div>
+										</div>
+
+										<div class="input-row bordered-bottom">
+
+											<div class="page-class-input-format input-format">
+												<div style="width: 50%;" class="input-format-title">
+													<span style="margin-left: 5px;">Date of birth</span>
+												</div>
+
+												<input style="width: 50%;" type="date"
+													class="form-control input-format-type"
+													th:field="*{trainerProfile.dateOfBirth}"
+													th:value="${trainer.trainerProfile.dateOfBirth}" />
+											</div>
+
+											<div
+												class="page-class-input-format input-format none-border-left">
+												<div style="width: 50%;" class="input-format-title">
+													<span style="margin-left: 5px;">Experience</span>
+												</div>
+
+												<input style="width: 50%;" type="text"
+													class="form-control input-format-type"
+													th:field="*{trainerProfile.experience}"
+													th:value="${trainer.getTrainerProfile().getExperience()}" />
+											</div>
+
+											<div
+												class="page-class-input-format input-format none-border-left">
+												<div style="width: 50%;" class="input-format-title">
+													<span style="margin-left: 5px;">Remarks</span>
+												</div>
+
+												<input style="width: 50%;" type="text"
+													class="form-control input-format-type"
+													th:field="*{trainerProfile.remarks}"
+													th:value="${trainer.getTrainerProfile().getRemarks()}" />
+											</div>
+										</div>
+									</form>
+								</div>
+
+
+								<br />
+
+
+
+							</div>
+							<div id="page-detail-content-buttons">
+								<button type="submit" class="btn" id="btn-submit-create-class"
+									form="form1">Update</button>
+								<a th:href="@{/api/v1/trainer/get_all_trainers}">
+									<button type="button" class="btn" id="btn-close-create-class">
+										<i class="fa-solid fa-left-long"
+											style="margin-right: 5px; color: red;"></i>Close
+									</button>
+								</a>
+							</div>
+						</div>
+					</div>
+		</main>
+	</div>
+
+	<footer>
+		<div class="footer-content">
+			<div class="footer-menu">
+				<div>
+					<i class="fa-solid fa-circle-question"></i> <a href="">Help</a>
+				</div>
+
+				&emsp;
+
+				<div>
+					<i class="fa-regular fa-calendar-check"></i> <a href="">Create
+						ticket on F12.0</a>
+				</div>
+			</div>
+		</div>
+	</footer>
+
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+		integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+		integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+		crossorigin="anonymous"></script>
+</body>
+</html>

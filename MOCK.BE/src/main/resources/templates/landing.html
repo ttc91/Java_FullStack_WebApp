@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Title</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="./css/style.css" />
+  </head>
+  <body>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+    <header>
+      <nav class="navbar navbar-expand-lg navbar-dark" id="nav">
+        <a class="navbar-brand" href="#">
+          <img
+            src="./img/fpt_logo.png"
+            width="50"
+            height="30"
+            class="d-inline-block align-top"
+            alt=""
+          />
+        </a>
+
+        <div class="collapse navbar-collapse">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link" href="" id="nav-title">FSOFT HR UTILITY</a>
+            </li>
+          </ul>
+        </div>
+
+        <div>
+          <b style="color: white">Hello, </b
+          ><a href="" style="color: white">user !!!!</a>
+          <br />
+          <a href="" style="color: white">Logout</a>
+        </div>
+      </nav>
+    </header>
+
+    <div class="page-wrapper">
+      <nav id="sidebar" class="sidebar-wrapper">
+        <div class="sidebar-content">
+          <div class="sidebar-brand">
+            <a href="" id="back-button">
+              <i class="fa-solid fa-angles-left"></i>
+            </a>
+          </div>
+
+          <div class="sidebar-header">
+            <div>
+              <span>Your role now is: </span>
+            </div>
+            <div class="input-group">
+              <input type="text" class="form-control" />
+              <div class="input-group-append">
+                <button
+                  type="button"
+                  class="btn btn-outline dropdown-toggle dropdown-toggle-split"
+                  id="btn-dropdown"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                ></button>
+
+                <div class="dropdown-menu">
+                  <a class="dropdown-item" href="#">Delivery Manager</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="sidebar-menu">
+            <ul id="ul-sidebar-menu">
+              <li><a href="">Dashboard</a></li>
+              <li><a href="">Class Management</a></li>
+              <li><a href="">Candidate Management</a></li>
+              <li><a href="">Trainer Management</a></li>
+              <li><a href="">Trainee Management</a></li>
+              <li><a href="">General Setting</a></li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+      <main class="page-content">
+        <div id="page-title">
+          <h1>Dashboard</h1>
+        </div>
+        <div id="page-detail">
+          <div id="page-dashboard-selections">
+            <div class="form-row">
+              <span>Dashboard for</span>
+              <select
+                class="form-control"
+                style="max-width: 45%; margin-left: 20px"
+              >
+                <option value="">Class</option>
+              </select>
+            </div>
+
+            <div class="form-row">
+              <span>Location</span>
+              <select
+                class="form-control"
+                style="max-width: 45%; margin-left: 20px"
+              >
+                <option value="">All</option>
+              </select>
+            </div>
+
+            <div class="form-row">
+              <span>Type of Dashboard</span>
+              <select
+                class="form-control"
+                style="max-width: 45%; margin-left: 20px"
+              >
+                <option value="">Table</option>
+              </select>
+            </div>
+
+            <div class="form-row">
+              <span>Status</span>
+              <select
+                class="form-control"
+                style="max-width: 45%; margin-left: 20px"
+              >
+                <option value="">All</option>
+              </select>
+            </div>
+          </div>
+
+          <div id="page-dashboard-skills">
+            <div class="dashboard-skills">
+              <span>Planning</span>
+              <br />
+              <select class="form-control" size="10"></select>
+            </div>
+
+            <div class="dashboard-skills">
+              <span>Planned</span>
+              <br />
+              <select class="form-control" size="10"></select>
+            </div>
+
+            <div class="dashboard-skills">
+              <span>In progress</span>
+              <br />
+              <select class="form-control" size="10"></select>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <footer>
+      <div class="footer-content">
+        <div class="footer-menu">
+          <div>
+            <i class="fa-solid fa-circle-question"></i>
+            <a href="">Help</a>
+          </div>
+
+          &emsp;
+
+          <div>
+            <i class="fa-regular fa-calendar-check"></i>
+            <a href="">Create ticket on F12.0</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

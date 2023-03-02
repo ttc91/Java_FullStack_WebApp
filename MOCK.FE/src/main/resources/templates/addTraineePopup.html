@@ -1,0 +1,103 @@
+
+<div id="myModal" class="modal fade" tabindex="-1" role="dialog" th:fragment="addTrainee">
+	<div class="modal-dialog w-75" role="document">
+		<div class="modal-content">
+
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">This is Modal</h4>
+			</div>
+
+			<div class="modal-body">
+<!-- 				<form class="container">
+					<div class="row">
+						<div class="col-lg-5">
+							<label class="w-25">Name</label> <input class="w-50" type="text">
+						</div>
+						<div class="col-lg-5">
+							<label class="w-25">DOB</label> <input class="w-50" type="date">
+						</div>
+						<div class="col-lg-2">
+							<button class="w-100" type="submit">Search</button>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-lg-5">
+							<label class="w-25">Phone</label> <input class="w-50"
+								type="number">
+						</div>
+						<div class="col-lg-5">
+							<label class="w-25">Email</label> <input class="w-50"
+								type="email">
+						</div>
+					</div>
+
+				</form> -->
+				<form class="list-content-body" th:object="${tt}"
+					th:action="@{/api/v1/trainee/get_all/addTraineeToClass}" method="post">
+					<input name="classId" th:value="${classId}" type="hidden"/>
+				<div class="table-responsive">
+					<table class="table table-bordered data_table">
+						<thead style="background-color: #cacaca">
+							<tr>
+								<th scope="col"><input type="checkbox" /></th>
+								<th scope="col">Empl ID</th>
+								<th scope="col">Account</th>
+								<th scope="col">Name</th>
+								<th scope="col">Gender</th>
+								<th scope="col">University</th>
+								<th scope="col">Faculty</th>
+								<th scope="col">Phone</th>
+								<th scope="col">Email</th>
+								<th scope="col">Status</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="i, itemStat : ${tt.traineeDtos}">
+								<td><input type="checkbox" name="traineeId"
+									th:value="${i.traineeId}" readonly="readonly"/></td>
+								<td th:text="${i.traineeId}"></td>
+								<td th:text="${i.traineeCandidateProfile.account}"></td>
+								<td th:text="${i.traineeCandidateProfile.fullName}"></td>
+								<td th:text="${i.traineeCandidateProfile.gender}"></td>
+
+								<th:block th:each="m : ${u}">
+									<th:block
+										th:if="${m.universityId} == ${i.traineeCandidateProfile.universityPK}">
+										<td th:text="${m.universityName}"></td>
+									</th:block>
+								</th:block>
+
+								<th:block th:each="m : ${f}">
+									<th:block
+										th:if="${m.majorId} == ${i.traineeCandidateProfile.facultyPK}">
+										<td th:text="${m.majorName}"></td>
+									</th:block>
+								</th:block>
+								<td th:text="${i.traineeCandidateProfile.phone}"></td>
+								<td th:text="${i.traineeCandidateProfile.email}"></td>
+								<td th:text="${i.status.statusName}"></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<button type="submit" class="list-content-advanced-btn btn-update">
+					<i class="fa-solid fa-circle-arrow-up" style="color: blue"></i>Add
+					Trainee
+				</button>
+</form>
+			</div>
+
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			</div>
+
+		</div>
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->

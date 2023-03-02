@@ -1,0 +1,64 @@
+
+<div id="reward_penalty" class="modal fade" tabindex="-1" role="dialog"
+	th:fragment="rewardPenalty">
+	<div class="modal-dialog" style="width: 1000px" role="document">
+		<div class="modal-content">
+
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">This is reward_penalty</h4>
+			</div>
+
+			<div class="modal-body">
+				<select onchange="filterRewardPenaltyByMistone(event)">
+					<option th:each="i : ${mi}" th:value="${i.milestoneId}"
+						th:text="${i.milestoneName}"></option>
+				</select>
+				<form class="list-content-body" th:object="${t}"
+					th:action="@{/api/v1/trainee/get_all}" method="post">
+					<input name="classId" th:value="${classId}" type="hidden"/>
+					<div class="table-responsive">
+						<table class="table table-bordered data_table">
+							<thead style="background-color: #cacaca">
+								<tr>
+									<th scope="col">Empl ID</th>
+									<th scope="col">Name</th>
+									<th scope="col">Date</th>
+									<th scope="col">Bonus Point</th>
+									<th scope="col">Penalty Point</th>
+									<th scope="col">Reason</th>
+								</tr>
+							</thead>
+							<tbody id="traineeTbody">
+								<tr th:each="i, itemStat : *{traineeDtos}" class="rewardPenalty">
+									<td width="10%"><input
+										th:name="|traineeDtos[${itemStat.index}].traineeId|"
+										th:value="${i.traineeId}" readonly="readonly" class="w-100" style="border: none;"></td>
+									<td width="25%"><input
+										th:name="|traineeDtos[${itemStat.index}].traineeCandidateProfile.fullName|"
+										th:value="${i.traineeCandidateProfile.fullName}"
+										readonly="readonly" class="w-100" style="border: none;"></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<button name="rewardPenalty" type="submit" class="list-content-advanced-btn btn-update">
+						<i class="fa-solid fa-circle-arrow-up" style="color: blue"></i>Add
+						Trainee
+					</button>
+				</form>
+			</div>
+
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			</div>
+
+		</div>
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->

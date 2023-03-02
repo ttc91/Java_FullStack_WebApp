@@ -1,0 +1,89 @@
+
+<div id="allocation" class="modal fade" tabindex="-1" role="dialog"
+	th:fragment="allocation">
+	<div class="modal-dialog" style="width: 1200px" role="document">
+		<div class="modal-content">
+
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">This is allocation</h4>
+			</div>
+
+			<div class="modal-body">
+				<form class="list-content-body" th:object="${t}"
+					th:action="@{/api/v1/trainee/get_all}" method="post">
+					<input name="classId" th:value="${classId}" type="hidden"/>
+					<div class="table-responsive">
+						<table class="table table-bordered data_table">
+							<thead style="background-color: #cacaca">
+								<tr>
+									<th scope="col">Empl ID</th>
+									<th scope="col">Name</th>
+									<th scope="col">Allocated FSU</th>
+									<th scope="col">Salary</th>
+									<th scope="col">Start date</th>
+									<th scope="col">Allocation status</th>
+									<th scope="col">Remarks</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="i, itemStat : *{traineeDtos}">
+
+									<td width="8%"><input
+										th:name="|traineeDtos[${itemStat.index}].traineeId|"
+										th:value="${i.traineeId}" type="text" readonly="readonly" style="border: none; width: 100%"></td>
+										
+									<td width="22%"><input
+										th:name="|traineeDtos[${itemStat.index}].traineeCandidateProfile.fullName|"
+										th:value="${i.traineeCandidateProfile.fullName}"
+										readonly="readonly" style="border: none; width: 100%"></td>
+										
+									<th:block th:each="k, kStat : ${i.allocations}">
+										<td width="15%"><input
+											th:name="|traineeDtos[${itemStat.index}].allocations[${kStat.index}].id|"
+											th:value="${k.id}" type="hidden">
+										<input
+											th:name="|traineeDtos[${itemStat.index}].allocations[${kStat.index}].allocatedFSU|"
+											th:value="${k.allocatedFSU}" style="border: none; width: 100%"></td>
+											
+ 										<td width="10%"><input
+											th:name="|traineeDtos[${itemStat.index}].allocations[${kStat.index}].salary|"
+											th:value="${k.salary}" type="number" style="border: none; width: 100%"></td>
+											
+										<td width="10%"><input
+											th:name="|traineeDtos[${itemStat.index}].allocations[${kStat.index}].startDate|"
+											th:value="${k.startDate}" type="date" style="border: none; width: 100%"></td>
+											
+										<td width="15%"><input
+											th:name="|traineeDtos[${itemStat.index}].allocations[${kStat.index}].allocationStatus|"
+											th:value="${k.allocationStatus}" type="text" style="border: none; width: 100%"></td>
+											
+										<td width="20%"><input
+											th:name="|traineeDtos[${itemStat.index}].allocations[${kStat.index}].remarks|"
+											th:value="${k.remarks}" type="text" style="border: none; width: 100%"></td>
+									</th:block>
+
+
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<button name="allocation" type="submit" class="list-content-advanced-btn btn-update">
+						<i class="fa-solid fa-circle-arrow-up" style="color: blue"></i>Update
+					</button>
+				</form>
+			</div>
+
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			</div>
+
+		</div>
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->

@@ -1,0 +1,193 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+<title>Title</title>
+<!-- Required meta tags -->
+<meta charset="utf-8" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" />
+<!-- Bootstrap CSS -->
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css" />
+
+<link rel="stylesheet" th:href="@{/css/gstyle.css}" />
+<link rel="stylesheet" th:href="@{/css/base.css}" />
+</head>
+<body>
+	<!-- Optional JavaScript -->
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	<div th:replace="layout.html :: header"></div>
+
+	<div class="body-container">
+		<div class="container_page" style="height: auto">
+			<div th:replace="layout.html :: sidebar"></div>
+
+			<main class="page-content">
+				<div id="page-title">
+					<h1>Trainee Profile</h1>
+				</div>
+				<div id="page-detail">
+					<div id="page-detail-content">
+						<form th:action="@{/api/v1/trainee}" id="form1" method="POST"
+							th:object="${t}">
+							<div id="page-detail-content-input">
+								<ul class="nav nav-tabs">
+									<li class="nav-item"><a class="nav-link active" th:href="@{|/api/v1/trainee/${t.traineeId}|}">Trainee
+											Information</a></li>
+									<th:block th:if="${t.clazzId} != null">
+									<li class="nav-item"><a class="nav-link" th:href="@{|/api/v1/trainingResult/${t.clazzId}/${t.traineeId}|}">Training
+											Result</a></li>
+									</th:block>
+								</ul>
+								<div id="page-class-general" class="mx-3">
+									<div>
+										<h1>Personal Information</h1>
+										<Table class="container table-bordered" id="myTable">
+											<thead>
+												<tr>
+													<th scope="col" colspan="8">Personal Information</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<th>Empl ID</th>
+													<td><input type="hidden" th:field="*{traineeId}" /> <input
+														type="hidden"
+														th:field="*{traineeCandidateProfile.profileId}" /></td>
+													<th>Type</th>
+													<td>Trainee</td>
+													<th>Status</th>
+													<td><input type="hidden" th:field="*{status.id}" /> <input
+														type="text" th:field="*{status.statusName}"
+														readonly="readonly" /> <input type="hidden"
+														th:field="*{status.remarks}" /></td>
+													<th>Allocation Status</th>
+													<td>Not allocated</td>
+												</tr>
+												<tr>
+													<th>Account</th>
+													<td colspan="3"><input type="text"
+														th:field="*{traineeCandidateProfile.account}" /></td>
+													<th>Name *</th>
+													<td colspan="3"><Input type="text" class="w-100"
+														th:field="*{traineeCandidateProfile.fullName}"
+														placeholder="Input full name" /></td>
+												</tr>
+												<tr>
+													<th>Gender *</th>
+													<td colspan="3"><select
+														th:field="*{traineeCandidateProfile.gender}">
+															<option value="Male">Male</option>
+															<option value="Female">Female</option>
+													</select></td>
+													<th>DOB *</th>
+													<td colspan="3"><input type="date" class="w-100"
+														th:field="*{traineeCandidateProfile.dateOfBirth}" /></td>
+												</tr>
+												<tr>
+													<th>University</th>
+													<td colspan="3"><select class="w-100"
+														th:field="*{traineeCandidateProfile.universityPK}">
+															<option th:value="${i.universityId}" th:each="i : ${u}"
+																th:text="${i.universityName}"
+																th:selected="${i.universityId==t.traineeCandidateProfile.universityPK}"></option>
+													</select></td>
+													<th>Faculty</th>
+													<td colspan="3"><select class="w-100"
+														th:field="*{traineeCandidateProfile.facultyPK}">
+															<option th:value="${i.majorId}" th:each="i : ${f}"
+																th:text="${i.majorName}"
+																th:selected="${i.majorId==t.traineeCandidateProfile.facultyPK}"></option>
+													</select></td>
+												</tr>
+												<tr>
+													<th>Phone *</th>
+													<td colspan="3"><Input type="number" min="0"
+														minlength="10" maxlength="14" class="w-100"
+														th:field="*{traineeCandidateProfile.phone}"
+														placeholder="Input Phone Number" /></td>
+													<th>Email *</th>
+													<td colspan="3"><Input type="email" class="w-100"
+														th:field="*{traineeCandidateProfile.email}"
+														placeholder="Input Email" /></td>
+												</tr>
+												<tr>
+													<th>Salary Paid</th>
+													<td colspan="3"><select th:field="*{salaryPaid}">
+															<option value="true">True</option>
+															<option value="false">False</option>
+													</select></td>
+													<th>TPB Account</th>
+													<td colspan="3"><Input type="number" min="0"
+														minlength="10" class="w-100" th:field="*{tpBankAccount}"
+														placeholder="Input TPB Account" /></td>
+												</tr>
+												<tr>
+													<th>Allowance Group</th>
+													<td colspan="3"><select class="w-100">
+															<option th:each="i : ${a}" th:text="${i.name}"></option>
+													</select></td>
+													<th>Commitment</th>
+													<td colspan="3"><input
+														th:field="*{committedWorkingDuration}" readonly /> months
+														- <input th:field="*{committedWorkingStartDate}" readonly /></td>
+												</tr>
+											</tbody>
+										</Table>
+									</div>
+								</div>
+							</div>
+							<div id="page-detail-content-buttons">
+								<button type="submit" class="btn" id="btn-close-create-class">
+									<i class="fa-solid fa-arrow-up"
+										style="margin-right: 5px; color: green;"></i>Update Traiee
+								</button>
+								<button type="button" class="btn" id="btn-close-create-class">
+									<i class="fa-solid fa-circle-xmark"
+										style="margin-right: 5px; color: red;"></i>Delete Traiee
+								</button>
+								<button type="button" class="btn" id="btn-close-create-class">
+									<i class="fa-solid fa-left-long"
+										style="margin-right: 5px; color: red;"></i>Close
+								</button>
+							</div>
+					</div>
+				</div>
+			</main>
+		</div>
+	</div>
+	<footer>
+		<div class="footer-content">
+			<div class="footer-menu">
+				<div>
+					<i class="fa-solid fa-circle-question"></i> <a href="">Help</a>
+				</div>
+
+				&emsp;
+
+				<div>
+					<i class="fa-regular fa-calendar-check"></i> <a href="">Create
+						ticket on F12.0</a>
+				</div>
+			</div>
+		</div>
+	</footer>
+
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+		integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+		integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+		crossorigin="anonymous"></script>
+</body>
+
+</html>
